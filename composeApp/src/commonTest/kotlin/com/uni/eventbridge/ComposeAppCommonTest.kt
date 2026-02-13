@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 import platform.UIKit.UIDevice
 

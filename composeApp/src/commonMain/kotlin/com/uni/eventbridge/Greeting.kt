@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 class Greeting {
     private val platform = getPlatform()

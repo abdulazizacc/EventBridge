@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
