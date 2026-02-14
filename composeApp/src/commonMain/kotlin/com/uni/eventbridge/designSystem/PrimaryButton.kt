@@ -21,15 +21,16 @@ import com.uni.eventbridge.designSystem.theme.White
 @Preview
 fun PrimaryButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    label: String = "Button"
+    onClick: () -> Unit = {},
+    label: String = "Button",
+    verticalPadding: Int = 12
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = Primary, shape = RoundedCornerShape(12.dp))
-            .clickable{ onClick() },
+            .background(color = Primary, shape = RoundedCornerShape(verticalPadding.dp))
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(
