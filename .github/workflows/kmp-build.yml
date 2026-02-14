@@ -1,10 +1,8 @@
 name: KMP Multiplatform Build
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
   build-android:
