@@ -17,6 +17,9 @@ jobs:
           distribution: 'zulu'
           cache: gradle
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Build Android App
         run: ./gradlew :composeApp:assembleDebug
 
@@ -31,6 +34,9 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
           cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Cache Kotlin Native
         uses: actions/cache@v4
