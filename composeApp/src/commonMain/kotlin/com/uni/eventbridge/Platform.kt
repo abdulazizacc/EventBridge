@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 interface Platform {
     val name: String

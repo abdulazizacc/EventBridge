@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 class JVMPlatform: Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"

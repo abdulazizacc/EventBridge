@@ -54,7 +54,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.eventbridge"
+    namespace = "com.uni.eventbridge"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

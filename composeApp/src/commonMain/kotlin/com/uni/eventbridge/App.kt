@@ -1,4 +1,4 @@
-package com.example.eventbridge
+package com.uni.eventbridge
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
