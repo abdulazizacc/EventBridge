@@ -15,13 +15,22 @@ jobs:
         with:
           java-version: '17'
           distribution: 'zulu'
-          cache: gradle
+
+      # Cache Gradle dependencies and wrapper
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Build Android App
-        run: ./gradlew :composeApp:assembleDebug
+        run: ./gradlew :composeApp:assembleDebug --build-cache --parallel
 
   build-ios:
     runs-on: macos-latest
@@ -33,16 +42,29 @@ jobs:
         with:
           java-version: '17'
           distribution: 'zulu'
-          cache: gradle
+
+      # Cache Gradle dependencies
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      # Cache Kotlin/Native and iOS build outputs
+      - name: Cache Kotlin/Native
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan
+            composeApp/build
+          key: kn-build-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: kn-build-${{ runner.os }}-
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Cache Kotlin Native
-        uses: actions/cache@v4
-        with:
-          path: ~/.konan
-          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle.kts') }}
-
       - name: Build iOS Framework
-        run: ./gradlew :composeApp:linkDebugFrameworkIosArm64
+        run: ./gradlew :composeApp:linkDebugFrameworkIosArm64 --build-cache --parallel
