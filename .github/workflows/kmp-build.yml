@@ -1,4 +1,4 @@
-name: KMP Multiplatform Build
+name: KMP Build
 
 on:
   pull_request:
