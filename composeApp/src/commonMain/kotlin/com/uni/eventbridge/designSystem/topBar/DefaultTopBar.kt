@@ -54,7 +54,7 @@ fun DefaultTopBar(
             text = title,
             color = SurfaceDark,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Black,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
         )
 
@@ -63,7 +63,7 @@ fun DefaultTopBar(
                 text = actionLabel,
                 color = SurfaceDark,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Black,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .clickable { onActionClick() }

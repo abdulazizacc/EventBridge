@@ -73,7 +73,7 @@ fun BadgeTopBar(
                 text = title,
                 color = SurfaceDark,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Black
+                fontWeight = FontWeight.Bold
             )
         }
         HorizontalDivider(
