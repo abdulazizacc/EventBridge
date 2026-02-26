@@ -1,4 +1,4 @@
-package com.uni.eventbridge.ui.navigation
+package com.uni.eventbridge.presentation.navigation
 
 import kotlinx.serialization.Serializable
 

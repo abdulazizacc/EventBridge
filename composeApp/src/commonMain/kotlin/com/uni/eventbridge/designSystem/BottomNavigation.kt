@@ -29,8 +29,8 @@ import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.designSystem.theme.Secondary
 import com.uni.eventbridge.designSystem.theme.SlateGray
 import com.uni.eventbridge.designSystem.theme.White
-import com.uni.eventbridge.ui.navigation.BottomNavigationRoute
-import com.uni.eventbridge.ui.navigation.toNavString
+import com.uni.eventbridge.presentation.navigation.BottomNavigationRoute
+import com.uni.eventbridge.presentation.navigation.toNavString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 

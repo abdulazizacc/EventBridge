@@ -21,7 +21,7 @@ import com.uni.eventbridge.designSystem.theme.White
 
 @Composable
 @Preview
-fun EventChips(
+fun EventChip(
     modifier: Modifier = Modifier,
     isSelected: Boolean = true,
     onClick: () -> Unit = {},
