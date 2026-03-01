@@ -15,6 +15,7 @@ data class HomeUiState(
         val date: String = "",
         val isActive: Boolean = true,
         val isLoading: Boolean = false,
+        val category: CategoryUiState = CategoryUiState()
     )
 
     data class CategoryUiState(
