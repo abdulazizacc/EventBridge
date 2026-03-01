@@ -2,6 +2,7 @@ package com.uni.eventbridge.designSystem
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,19 +37,21 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EventCard(
-    imageRes: DrawableResource,
+    imageRes: DrawableResource = Res.drawable.im_banner_image,
     date: String,
     title: String,
     location: String,
-    category: String,
+    category: String? = null,
+    onClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+        modifier = modifier.fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Column {
             Box(
@@ -63,23 +66,24 @@ fun EventCard(
                         .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
                 )
 
-                Box(
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .align(Alignment.TopStart)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.White)
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Text(
-                        text = category.uppercase(),
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2979FF),
-                        letterSpacing = 0.8.sp
-                    )
+                category?.let {
+                    Box(
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .align(Alignment.TopStart)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Color.White)
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            text = category.uppercase(),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF2979FF),
+                            letterSpacing = 0.8.sp
+                        )
+                    }
                 }
-
             }
 
             Column(modifier = Modifier.padding(16.dp)) {
