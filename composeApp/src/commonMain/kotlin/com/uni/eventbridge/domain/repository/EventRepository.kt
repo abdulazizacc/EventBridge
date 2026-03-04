@@ -5,13 +5,16 @@ import com.uni.eventbridge.domain.entity.Event
 
 interface EventRepository {
     suspend fun getCategory(): List<Category>
-    suspend fun getEventDeals(eventId:Long): Event
+    suspend fun getEventDealsById(eventId:Long): Event
     suspend fun getEventByCategory(
         categoryId: Long?,
     ): List<Event>
     suspend fun getEventBySearch(
         query: String,
     ): List<Event>
+
+    suspend fun joinEvent(eventId: Long)
+
 }
 
 
