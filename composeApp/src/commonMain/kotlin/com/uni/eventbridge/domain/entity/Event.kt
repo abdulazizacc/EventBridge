@@ -8,5 +8,9 @@ data class Event(
     val location: String,
     val date: String,
     val isActive: Boolean,
-    val category: Category
+    val time: String,
+    val category: Category,
+    val venueName: String,
+    val venueDetail: String,
+    val organizer: String,
 )
