@@ -1,8 +1,9 @@
 package com.uni.eventbridge.presentation.events
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -74,6 +75,8 @@ private fun EventsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = White),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
                 items = uiState.events,
@@ -83,8 +86,6 @@ private fun EventsContent(
                     title = event.title,
                     date = event.date,
                     location = event.location,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
                     onClick = { onEventClicked(event.id) },
                 )
             }
