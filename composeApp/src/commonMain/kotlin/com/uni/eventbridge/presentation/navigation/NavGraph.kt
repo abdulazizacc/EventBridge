@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.uni.eventbridge.presentation.eventDetails.EventDetailsScreen
 import com.uni.eventbridge.presentation.home.HomeScreen
 
 @Composable
@@ -35,7 +36,10 @@ fun NavGraph(
 
         composable("event_details/{eventId}") { backStackEntry ->
             val eventId = backStackEntry.arguments?.getString("eventId") ?: return@composable
-            // TODO: EventDetailScreen(eventId = eventId)
+            EventDetailsScreen(
+                eventId = eventId.toLong(),
+                onNavigateBack = { navController.navigateUp() },
+            )
         }
     }
 }

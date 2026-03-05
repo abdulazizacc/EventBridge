@@ -40,7 +40,7 @@ fun OverlayTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
     ) {
 
         if (onBackClick != null) {
