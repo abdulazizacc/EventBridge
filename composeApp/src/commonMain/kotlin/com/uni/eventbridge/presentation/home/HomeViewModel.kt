@@ -25,7 +25,7 @@ class HomeViewModel(
         )
     }
 
-    fun loadEvents() {
+    private fun loadEvents() {
         val categoryId = currentState.selectedCategoryId
 
         tryToExecute(

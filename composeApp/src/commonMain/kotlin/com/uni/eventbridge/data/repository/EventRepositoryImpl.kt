@@ -13,7 +13,7 @@ class EventRepositoryImpl (
     override suspend fun getCategory(): List<Category> =
         remoteDataSource.getCategory().map { it.toDomain() }
 
-    override suspend fun getEventDeals(eventId: Long): Event =
+    override suspend fun getEventDealsById(eventId: Long): Event =
         remoteDataSource.getEventDeals(eventId).toDomain()
 
     override suspend fun getEventByCategory(categoryId: Long?): List<Event> {
@@ -22,4 +22,8 @@ class EventRepositoryImpl (
 
     override suspend fun getEventBySearch(query: String): List<Event> =
         remoteDataSource.getEventBySearch(query).map { it.toDomain() }
+
+    override suspend fun joinEvent(eventId: Long) {
+        remoteDataSource.joinEvent(eventId)
+    }
 }

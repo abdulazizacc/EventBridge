@@ -12,5 +12,9 @@ data class EventDto(
     val location: String,
     val date: String,
     @SerialName("is_active") val isActive: Boolean,
-    val category: CategoryDto
+    val category: CategoryDto,
+    val time: String,
+    val venueName: String,
+    val venueDetail: String,
+    val organizer: String,
 )

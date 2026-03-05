@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.uni.eventbridge.designSystem.modifier.noRippleClickable
 import com.uni.eventbridge.designSystem.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
-import eventbridge.composeapp.generated.resources.ic_account
+import eventbridge.composeapp.generated.resources.ic_explore
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -70,7 +70,7 @@ fun EventTextField(
             .fillMaxWidth()
             .background(color = Color(0xFFF1F5F9), shape = RoundedCornerShape(12.dp))
             .border(
-                border = BorderStroke(1.dp,animatedBorderColor),
+                border = BorderStroke(1.dp, animatedBorderColor),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(start = 12.dp, top = 13.dp, bottom = 13.dp)
@@ -123,13 +123,13 @@ fun EventTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun EventTextFieldPreview(modifier: Modifier = Modifier) {
+private fun EventTextFieldPreview(modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
     EventTextField(
         value = name,
         onValueChange = { name = it },
         hint = "what a hint",
         modifier = modifier,
-        leadingIcon = painterResource(Res.drawable.ic_account)
+        leadingIcon = painterResource(Res.drawable.ic_explore)
     )
 }

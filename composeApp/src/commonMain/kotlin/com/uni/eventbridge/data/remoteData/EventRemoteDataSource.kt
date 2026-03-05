@@ -18,7 +18,11 @@ class EventRemoteDataSource(
         location = "Baghdad, Iraq",
         date = "2026-05-01",
         isActive = true,
-        category = CategoryDto(id = 1, name = "Music")
+        category = CategoryDto(id = 1, name = "Music"),
+        time = "9:00",
+        venueName = "lovely venue",
+        venueDetail = "xxxxx",
+        organizer = "CS department",
     )
 
     suspend fun getEventByCategory(categoryId: Long?): List<EventDto> {
@@ -32,8 +36,12 @@ class EventRemoteDataSource(
                 location = "Erbil",
                 date = "2026-04-10",
                 isActive = true,
-                CategoryDto(id = 2, name = "Sports")
-            ),
+                CategoryDto(id = 2, name = "Sports"),
+                time = "9:00",
+                venueName = "lovely venue",
+                venueDetail = "xxxxx",
+                organizer = "CS department",
+                ),
             EventDto(
                 id = 2,
                 name = "Jazz Night",
@@ -42,7 +50,11 @@ class EventRemoteDataSource(
                 location = "Baghdad",
                 date = "2026-04-15",
                 isActive = true,
-                CategoryDto(id = 2, name = "Sports")
+                CategoryDto(id = 2, name = "Sports"),
+                time = "9:00",
+                venueName = "lovely venue",
+                venueDetail = "xxxxx",
+                organizer = "CS department",
             ),
             EventDto(
                 id = 3,
@@ -51,7 +63,11 @@ class EventRemoteDataSource(
                 bannerUrl = "https://picsum.photos/600/402",
                 location = "Basra",
                 date = "2026-04-20",
-                isActive = false, CategoryDto(id = 4, name = "Art")
+                isActive = false, CategoryDto(id = 4, name = "Art"),
+                time = "9:00",
+                venueName = "lovely venue",
+                venueDetail = "xxxxx",
+                organizer = "CS department",
             ),
             )
         return if (categoryId == null) allEvents
@@ -60,4 +76,9 @@ class EventRemoteDataSource(
     }
 
     suspend fun getEventBySearch(query: String): List<EventDto> = emptyList()
+
+
+    suspend fun joinEvent(eventId: Long) {
+        println("Joined event $eventId")
+    }
 }

@@ -13,7 +13,11 @@ fun EventDto.toDomain() = Event(
     location = location,
     date = date,
     isActive = isActive,
-    category = category.toDomain()
+    category = category.toDomain(),
+    time = time,
+    venueName = venueName,
+    venueDetail = venueDetail,
+    organizer = organizer
 )
 
 fun CategoryDto.toDomain() = Category(
