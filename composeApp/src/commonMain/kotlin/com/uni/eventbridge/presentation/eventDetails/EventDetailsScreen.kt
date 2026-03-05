@@ -71,7 +71,6 @@ fun EventDetailsContent(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 100.dp)
                 .background(color = White),
         ) {
             item {
