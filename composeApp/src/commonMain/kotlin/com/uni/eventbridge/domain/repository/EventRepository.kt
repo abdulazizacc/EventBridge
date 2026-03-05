@@ -12,8 +12,8 @@ interface EventRepository {
     suspend fun getEventBySearch(
         query: String,
     ): List<Event>
-
     suspend fun joinEvent(eventId: Long)
+    suspend fun getMyEvents(): List<Event>
 
 }
 

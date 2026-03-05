@@ -26,4 +26,6 @@ class EventRepositoryImpl (
     override suspend fun joinEvent(eventId: Long) {
         remoteDataSource.joinEvent(eventId)
     }
+    override suspend fun getMyEvents(): List<Event> =
+        remoteDataSource.getMyEvents().map { it.toDomain() }
 }

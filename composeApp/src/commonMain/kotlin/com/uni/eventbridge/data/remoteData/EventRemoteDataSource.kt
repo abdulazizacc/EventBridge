@@ -75,6 +75,52 @@ class EventRemoteDataSource(
 
     }
 
+
+    suspend fun getMyEvents(): List<EventDto> = listOf(
+        EventDto(
+            id = 1,
+            name = "Annual Science Fair",
+            description = "A science fair for all students",
+            bannerUrl = "https://picsum.photos/600/400",
+            location = "Grand University Hall",
+            date = "Oct 24, 2023",
+            isActive = true,
+            category = CategoryDto(id = 3, name = "Tech"),
+            time = "10:00 AM",
+            venueName = "Grand University Hall",
+            venueDetail = "Main Campus, Level 1",
+            organizer = "CS department",
+        ),
+        EventDto(
+            id = 2,
+            name = "AI & Ethics Workshop",
+            description = "A workshop about AI and ethics",
+            bannerUrl = "https://picsum.photos/600/401",
+            location = "Innovation Tech Hub",
+            date = "Oct 26, 2023",
+            isActive = true,
+            category = CategoryDto(id = 3, name = "Tech"),
+            time = "2:30 PM",
+            venueName = "Innovation Tech Hub",
+            venueDetail = "Block B, Room 204",
+            organizer = "CS department",
+        ),
+        EventDto(
+            id = 3,
+            name = "Winter Music Fest",
+            description = "A winter music festival",
+            bannerUrl = "https://picsum.photos/600/402",
+            location = "University Stadium",
+            date = "Dec 12, 2023",
+            isActive = true,
+            category = CategoryDto(id = 1, name = "Music"),
+            time = "6:00 PM",
+            venueName = "University Stadium",
+            venueDetail = "South Gate Entrance",
+            organizer = "Music Club",
+        ),
+    )
+
     suspend fun getEventBySearch(query: String): List<EventDto> = emptyList()
 
 
