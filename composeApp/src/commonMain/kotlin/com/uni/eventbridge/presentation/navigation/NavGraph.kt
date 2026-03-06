@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsScreen
+import com.uni.eventbridge.presentation.events.EventsScreen
 import com.uni.eventbridge.presentation.home.HomeScreen
 
 @Composable
@@ -28,6 +29,14 @@ fun NavGraph(
 
         composable(Route.Explore.toNavString()) {
             // TODO: ExploreScreen()
+        }
+
+        composable(Route.Events.toNavString()) {
+            EventsScreen(
+                onNavigateToEventDetail = { eventId ->
+                    navController.navigate(Route.EventDetails(eventId.toString()).toNavString())
+                }
+            )
         }
 
         composable(Route.Account.toNavString()) {

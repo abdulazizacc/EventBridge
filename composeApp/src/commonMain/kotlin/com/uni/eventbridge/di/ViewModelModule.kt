@@ -1,6 +1,7 @@
 package com.uni.eventbridge.di
 
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsViewModel
+import com.uni.eventbridge.presentation.events.EventsViewModel
 import com.uni.eventbridge.presentation.home.HomeViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -14,4 +15,5 @@ val ViewModelModule = module {
             eventId = params.get<Long>(),
         )
     }
+    viewModelOf(::EventsViewModel)
 }

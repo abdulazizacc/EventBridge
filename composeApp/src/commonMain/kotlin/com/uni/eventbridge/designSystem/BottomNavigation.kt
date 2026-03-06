@@ -140,5 +140,6 @@ fun NavItem(
 private val BOTTOM_NAV_ITEMS = listOf(
     BottomNavigationRoute.Home,
     BottomNavigationRoute.Explore,
+    BottomNavigationRoute.Events,
     BottomNavigationRoute.Account
 )

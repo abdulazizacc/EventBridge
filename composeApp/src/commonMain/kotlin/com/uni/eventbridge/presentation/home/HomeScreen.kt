@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.designSystem.EventCard
 import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.designSystem.topBar.BadgeTopBar
 import com.uni.eventbridge.presentation.home.componenet.CategorySection
+import com.uni.eventbridge.presentation.home.componenet.HomeEventCard
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_hat
 import org.jetbrains.compose.resources.painterResource
@@ -82,7 +82,7 @@ private fun HomeContent(
             items = uiState.events,
             key = { it.id },
         ) { event ->
-            EventCard(
+            HomeEventCard(
                 date = event.date,
                 title = event.title,
                 location = event.location,
