@@ -1,5 +1,6 @@
 import com.uni.eventbridge.data.remoteData.dto.CategoryDto
 import com.uni.eventbridge.data.remoteData.dto.EventDto
+import com.uni.eventbridge.domain.model.CreateEventDraft
 
 class EventRemoteDataSource(
 ) {
@@ -123,7 +124,9 @@ class EventRemoteDataSource(
 
     suspend fun getEventBySearch(query: String): List<EventDto> = emptyList()
 
-
+    suspend fun createEvent(request: CreateEventDraft) {
+        println("Creating event: ${request.title}")
+    }
     suspend fun joinEvent(eventId: Long) {
         println("Joined event $eventId")
     }

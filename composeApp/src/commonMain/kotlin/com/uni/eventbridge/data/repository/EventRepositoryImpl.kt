@@ -4,6 +4,7 @@ import EventRemoteDataSource
 import com.uni.eventbridge.data.mapper.toDomain
 import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
+import com.uni.eventbridge.domain.model.CreateEventDraft
 import com.uni.eventbridge.domain.repository.EventRepository
 
 class EventRepositoryImpl (
@@ -28,4 +29,12 @@ class EventRepositoryImpl (
     }
     override suspend fun getMyEvents(): List<Event> =
         remoteDataSource.getMyEvents().map { it.toDomain() }
+
+    override suspend fun createEvent(request: CreateEventDraft) {
+        remoteDataSource.createEvent(request)
+    }
+
+    override suspend fun searchEvent(query: String): List<Event> {
+        return emptyList()
+    }
 }
