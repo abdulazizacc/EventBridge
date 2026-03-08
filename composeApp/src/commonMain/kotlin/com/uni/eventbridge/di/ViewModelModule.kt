@@ -1,5 +1,6 @@
 package com.uni.eventbridge.di
 
+import com.uni.eventbridge.presentation.createEvent.CreateEventViewModel
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsViewModel
 import com.uni.eventbridge.presentation.events.EventsViewModel
 import com.uni.eventbridge.presentation.home.HomeViewModel
@@ -16,4 +17,5 @@ val ViewModelModule = module {
         )
     }
     viewModelOf(::EventsViewModel)
+    viewModelOf(::CreateEventViewModel)
 }
