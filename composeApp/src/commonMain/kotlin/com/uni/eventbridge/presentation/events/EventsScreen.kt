@@ -30,14 +30,15 @@ import org.koin.compose.viewmodel.koinViewModel
 fun EventsScreen(
     viewModel: EventsViewModel = koinViewModel(),
     onNavigateToEventDetail: (Long) -> Unit,
+    onCreateEventClicked: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(  Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is EventsUIEffect.NavigateToEventDetails -> onNavigateToEventDetail(effect.eventId)
-                else -> {}
+                is EventsUIEffect.NavigateToCreateEvent -> onCreateEventClicked()
             }
         }
     }
@@ -59,7 +60,7 @@ private fun EventsContent(
         topBar = { DefaultTopBar(title = "My Events") },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onCreateEventClicked,
+                onClick = { onCreateEventClicked() },
                 containerColor = Primary,
                 contentColor = White,
                 shape = CircleShape
