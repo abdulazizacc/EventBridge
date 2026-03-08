@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -25,9 +24,6 @@ kotlin {
             isStatic = true
         }
     }
-    
-    jvm()
-    
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -41,10 +37,18 @@ kotlin {
 
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
+            implementation(libs.peekaboo.ui)
+            implementation(libs.peekaboo.image.picker)
+
+            implementation(libs.filekit.compose)
 
         }
         commonTest.dependencies {
@@ -53,10 +57,6 @@ kotlin {
 
         iosMain.dependencies {
 
-        }
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
         }
     }
 }
@@ -87,19 +87,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
+ 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
-}
-
-compose.desktop {
-    application {
-        mainClass = "com.example.eventbridge.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.example.eventbridge"
-            packageVersion = "1.0.0"
-        }
-    }
 }

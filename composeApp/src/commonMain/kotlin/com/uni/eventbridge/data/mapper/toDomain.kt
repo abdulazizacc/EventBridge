@@ -22,5 +22,6 @@ fun EventDto.toDomain() = Event(
 
 fun CategoryDto.toDomain() = Category(
     id = id,
-    name = name
+    name = name,
+    icon = null
 )

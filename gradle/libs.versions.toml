@@ -17,6 +17,10 @@ kotlinx-coroutines = "1.10.2"
 material3 = "1.10.0-alpha05"
 composeNavigation = "2.8.0-alpha10"
 koin = "4.1.0"
+kotlinx-datetime = "0.6.0"
+coil = "3.1.0"
+filekit = "0.8.8"
+peekaboo = "0.5.2"
 
 
 [libraries]
@@ -47,6 +51,17 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 
+#time
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+
+# coil
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+peekaboo-ui = { module = "io.github.onseok:peekaboo-ui", version.ref = "peekaboo" }
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
+
+filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekit" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -55,6 +70,9 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
+
+##Map
+#maplibre = { module = "org.maplibre.compose:maplibre-compose", version = "0.12.1" }
 
 [bundles]
 compose-core = [

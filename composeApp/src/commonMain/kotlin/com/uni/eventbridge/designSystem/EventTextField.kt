@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.uni.eventbridge.designSystem.modifier.noRippleClickable
 import com.uni.eventbridge.designSystem.theme.Primary
+import com.uni.eventbridge.designSystem.theme.White
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_explore
 import kotlinx.coroutines.launch
@@ -54,7 +55,7 @@ fun EventTextField(
 
     val animatedBorderColor by animateColorAsState(
         targetValue = if (isFocused) Primary
-        else Color(0xFFF1F5F9),
+        else Color(0xFFD1D5DB),
         animationSpec = tween(300)
     )
     val animatedContentColor by animateColorAsState(
@@ -68,7 +69,7 @@ fun EventTextField(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .background(color = Color(0xFFF1F5F9), shape = RoundedCornerShape(12.dp))
+            .background(color = White, shape = RoundedCornerShape(12.dp))
             .border(
                 border = BorderStroke(1.dp, animatedBorderColor),
                 shape = RoundedCornerShape(12.dp)

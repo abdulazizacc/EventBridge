@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.uni.eventbridge.presentation.createEvent.CreateEventScreen
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsScreen
 import com.uni.eventbridge.presentation.events.EventsScreen
 import com.uni.eventbridge.presentation.home.HomeScreen
@@ -35,7 +36,17 @@ fun NavGraph(
             EventsScreen(
                 onNavigateToEventDetail = { eventId ->
                     navController.navigate(Route.EventDetails(eventId.toString()).toNavString())
+                },
+                onCreateEventClicked = {
+                    navController.navigate(Route.CreateEvent.toNavString())
                 }
+            )
+        }
+
+        composable (Route.CreateEvent.toNavString()){
+            CreateEventScreen(
+                onNavigateBack = { navController.navigateUp() },
+                onEventPublished = {}
             )
         }
 
