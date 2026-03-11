@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -19,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.designSystem.theme.Secondary
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsUiState
@@ -60,16 +62,29 @@ fun EventHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-
-            Image(
-                painter = painterResource(Res.drawable.im_banner_image),
-                contentDescription = "title",
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
                     .size(26.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-            )
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (organizerAvatarUrl.isNotBlank()) {
+                    AsyncImage(
+                        model = organizerAvatarUrl,
+                        contentDescription = "Organizer avatar",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(Res.drawable.im_banner_image),
+                        contentDescription = "Organizer avatar placeholder",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+            }
             Text(
                 text = "Organized by ",
                 style = MaterialTheme.typography.bodySmall,

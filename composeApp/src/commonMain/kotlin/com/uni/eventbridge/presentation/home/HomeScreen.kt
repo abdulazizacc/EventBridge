@@ -83,9 +83,11 @@ private fun HomeContent(
             key = { it.id },
         ) { event ->
             HomeEventCard(
+                imageUrl = event.bannerUrl.takeIf { it.isNotBlank() },
                 date = event.date,
                 title = event.title,
                 location = event.location,
+                category = event.category.name.takeIf { it.isNotBlank() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.eventbridge.designSystem.EventBridgeScaffold
 import com.uni.eventbridge.designSystem.EventCard
 import com.uni.eventbridge.designSystem.theme.Primary
+import com.uni.eventbridge.designSystem.theme.Secondary
 import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
 import eventbridge.composeapp.generated.resources.Res
@@ -79,6 +81,12 @@ private fun EventsContent(
             contentPadding = PaddingValues(horizontal = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item{
+                HorizontalDivider(
+                    color = Secondary,
+                    thickness = 1.dp
+                )
+            }
             items(
                 items = uiState.events,
                 key = { it.id },
@@ -87,6 +95,7 @@ private fun EventsContent(
                     title = event.title,
                     date = event.date,
                     location = event.location,
+                    imageUrl = event.imageUrl.takeIf { it.isNotBlank() },
                     onClick = { onEventClicked(event.id) },
                 )
             }

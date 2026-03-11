@@ -14,10 +14,13 @@ class EventsViewModel(
     }
 
     private fun loadMyEvents() {
+
         tryToExecute(
+
             callee = {
                 eventRepository.getMyEvents()
             },
+
             onStart = {
                 updateState { it.copy(isLoading = true) }
             },
@@ -29,7 +32,8 @@ class EventsViewModel(
                     )
                 }
             },
-        )
+
+            )
     }
 
     fun onEventClicked(eventId: Long) {
