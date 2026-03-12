@@ -6,7 +6,7 @@ import com.uni.eventbridge.domain.model.CreateEventDraft
 
 interface EventRepository {
     suspend fun getCategory(): List<Category>
-    suspend fun getEventDealsById(eventId:Long): Event
+    suspend fun getEventDetailsById(eventId:Long): Event
     suspend fun getEventByCategory(
         categoryId: Long?,
     ): List<Event>
@@ -14,9 +14,11 @@ interface EventRepository {
         query: String,
     ): List<Event>
     suspend fun joinEvent(eventId: Long)
+    suspend fun leaveEvent(eventId: Long)
+
     suspend fun getMyEvents(): List<Event>
     suspend fun createEvent(request: CreateEventDraft)
-
+    suspend fun isUserJoined(eventId: Long): Boolean
     suspend fun searchEvent(query: String): List<Event>
 
 }
