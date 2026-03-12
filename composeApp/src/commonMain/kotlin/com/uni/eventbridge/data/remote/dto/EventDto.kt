@@ -29,6 +29,10 @@ data class EventDto(
     val venueName: String? = null,
     @SerialName("venue_detail")
     val venueDetail: String? = null,
-    @SerialName("organizer_id")
+    @SerialName("organizer_name")
     val organizer: String? = null,
+    @SerialName("max_attendees")
+    val maxAttendees: Int? = null,
+    @SerialName("remaining_seats")
+    val remainingSeats: Int? = null,
 )

@@ -2,6 +2,7 @@ package com.uni.eventbridge.presentation.eventDetails
 
 import com.uni.eventbridge.domain.repository.EventRepository
 import com.uni.eventbridge.presentation.common.BaseViewModel
+import io.github.aakira.napier.Napier
 
 class EventDetailsViewModel(
     private val eventRepository: EventRepository,
@@ -14,34 +15,81 @@ class EventDetailsViewModel(
         loadEventDetails()
     }
 
-    private fun loadEventDetails() {
+    private fun loadEventDetails(){
         tryToExecute(
             callee = {
-                eventRepository.getEventDealsById(eventId)
+                Napier.d(tag = "loadEventDetails", message = "Fetching eventId=$eventId")
+                val event = eventRepository.getEventDetailsById(eventId)
+                Napier.d(tag = "loadEventDetails", message = "Event fetched: $event")
+                val joined = eventRepository.isUserJoined(eventId)
+                Napier.d(tag = "loadEventDetails", message = "isJoined=$joined")
+                Pair(event, joined)
             },
             onStart = {
                 updateState { it.copy(isLoading = true) }
             },
-            onSuccess = { event ->
+            onSuccess = { (event, joined) ->
+                Napier.d(tag = "loadEventDetails", message = "onSuccess called")
                 updateState {
-                    event.toUiState().copy(isLoading = false)
+                    event.toUiState().copy(
+                        isLoading    = false,
+                        isRegistered = joined,
+                    )
                 }
             },
+            onError = { throwable ->
+                Napier.e(tag = "loadEventDetails", message = "Error: ${throwable.message} cause: ${throwable.cause}")
+                updateState { it.copy(isLoading = false) }
+                sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to load event details"))
+            }
+        )
+    }
+    fun onJoinEventClick() {
+        val state = currentState
+        if (state.isFull) {
+            sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Sorry, this event is full"))
+            return
+        }
+        tryToExecute(
+            callee = { eventRepository.joinEvent(eventId) },
+            onStart = { updateState { it.copy(isLoading = true) } },
+            onSuccess = {
+                updateState {
+                    it.copy(
+                        isLoading    = false,
+                        isRegistered = true,
+                        remainingSeats = it.remainingSeats?.minus(1),
+                    )
+                }
+                sendEffect(EventDetailsUIEffect.ShowJoinSuccessSnakeBar)
+            },
+            onError = {
+                updateState { it.copy(isLoading = false) }
+                if (state.remainingSeats != null && state.remainingSeats <= 0) {
+                    sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Sorry, this event is full"))
+                }
+            }
         )
     }
 
-    fun onJoinEventClick() {
+    fun onLeaveEventClick() {
         tryToExecute(
-            callee = {
-                eventRepository.joinEvent(eventId)
-            },
-            onStart = {
-                updateState { it.copy(isLoading = true) }
-            },
+            callee = { eventRepository.leaveEvent(eventId) },
+            onStart = { updateState { it.copy(isLoading = true) } },
             onSuccess = {
-                updateState { it.copy(isLoading = false, isRegistered = true) }
-                sendEffect(EventDetailsUIEffect.ShowJoinSuccessSnakeBar)
+                updateState {
+                    it.copy(
+                        isLoading    = false,
+                        isRegistered = false,
+                        remainingSeats = it.remainingSeats?.plus(1),
+                    )
+                }
+                sendEffect(EventDetailsUIEffect.ShowLeaveSuccessSnackBar)
             },
+            onError = {
+                updateState { it.copy(isLoading = false) }
+                sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to leave event. Please try again."))
+            }
         )
     }
 
