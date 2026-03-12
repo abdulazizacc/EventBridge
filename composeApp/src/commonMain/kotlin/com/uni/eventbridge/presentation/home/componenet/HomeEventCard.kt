@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.uni.eventbridge.designSystem.PrimaryButton
 import com.uni.eventbridge.designSystem.theme.Red
 import com.uni.eventbridge.designSystem.theme.SlateGray
@@ -38,6 +39,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun HomeEventCard(
+    imageUrl: String? = null,
     imageRes: DrawableResource = Res.drawable.im_banner_image,
     date: String,
     title: String,
@@ -58,14 +60,25 @@ fun HomeEventCard(
             Box(
                 modifier = Modifier.fillMaxWidth().height(191.dp)
             ) {
-                Image(
-                    painter = painterResource(imageRes),
-                    contentDescription = title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                )
+                if (!imageUrl.isNullOrBlank()) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(imageRes),
+                        contentDescription = title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    )
+                }
 
                 category?.let {
                     Box(
@@ -136,6 +149,7 @@ fun HomeEventCard(
 @Preview
 fun Preview() {
     HomeEventCard(
+        imageUrl = null,
         imageRes = Res.drawable.im_banner_image,
         date = "FRI, OCT 25 • 6:00 PM",
         title = "Annual Spring Hackathon",

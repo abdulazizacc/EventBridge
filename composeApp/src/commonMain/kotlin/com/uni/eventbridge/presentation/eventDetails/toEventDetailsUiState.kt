@@ -8,10 +8,17 @@ fun Event.toUiState() = EventDetailsUiState(
     title = name,
     description = description,
     heroImageUrl = bannerUrl,
+    venueName = location,
     date = date,
+    startTime = startTime,
+    endTime = endTime,
+    venueDetail = venueDetail,
     category = category.toUiState(),
-    timeRange = time,
-)
+    maxAttendees = maxAttendees,
+    remainingSeats = remainingSeats,
+    organizer = organizer,
+    isFull = remainingSeats != null && remainingSeats <= 0,
+    )
 
 fun Category.toUiState() = EventDetailsUiState.CategoryUiState(
     id = id,

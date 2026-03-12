@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,8 +19,8 @@ import androidx.compose.ui.unit.dp
 fun EventBridgeScaffold(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
-    topBar:  (@Composable () -> Unit)? = null,
-    bottomBar:  (@Composable () -> Unit)? = null,
+    topBar: (@Composable () -> Unit)? = null,
+    bottomBar: (@Composable () -> Unit)? = null,
     floatingActionButton: (@Composable () -> Unit)? = null,
     content: @Composable (BoxScope.() -> Unit),
 ) {
@@ -31,12 +30,15 @@ fun EventBridgeScaffold(
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier.fillMaxSize(),
         ) {
-
             topBar?.invoke()
 
-            Box {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+            ) {
                 Crossfade(targetState = isLoading) { isLoading ->
                     if (isLoading) {
                         Box(
@@ -49,26 +51,20 @@ fun EventBridgeScaffold(
                     }
                 }
             }
-        }
-
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .imePadding(),
-            horizontalAlignment = Alignment.End,
-        ) {
-            floatingActionButton?.let {
-                Box(
-                    modifier = Modifier
-                        .padding(end = 16.dp, bottom = if (bottomBar != null) 8.dp else 16.dp),
-                ) {
-                    it.invoke()
-                }
-            }
 
             bottomBar?.invoke()
+        }
+        floatingActionButton?.let {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(
+                        end = 16.dp,
+                        bottom = if (bottomBar != null) 80.dp else 16.dp
+                    )
+            ) {
+                it()
+            }
         }
     }
 }

@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -30,6 +33,11 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.android)
+            implementation(libs.google.identity)
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play)
+
         }
         commonMain.dependencies {
             implementation(libs.bundles.compose.core)
@@ -48,7 +56,17 @@ kotlin {
             implementation(libs.peekaboo.ui)
             implementation(libs.peekaboo.image.picker)
 
-            implementation(libs.filekit.compose)
+            implementation(libs.supabase.postgrest)
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.storage)
+            implementation(libs.supabase.composeauth)
+
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.room.runtime)
+
+
+            implementation("io.github.aakira:napier:2.7.1")
 
         }
         commonTest.dependencies {
@@ -56,17 +74,19 @@ kotlin {
         }
 
         iosMain.dependencies {
-
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
+
+
 
 android {
     namespace = "com.uni.eventbridge"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.eventbridge"
+        applicationId = "com.uni.eventbridge"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -89,5 +109,12 @@ android {
 }
  
 dependencies {
+    add("kspAndroid",            libs.room.compiler)
+    add("kspIosArm64",           libs.room.compiler)
+    add("kspIosSimulatorArm64",  libs.room.compiler)
     debugImplementation(libs.compose.uiTooling)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

@@ -18,7 +18,9 @@ import com.uni.eventbridge.designSystem.theme.White
 @Composable
 fun JoinBottomBar(
     isJoined: Boolean,
+    isFull: Boolean,
     onJoinClick: () -> Unit,
+    onLeaveClick: () -> Unit,
 ) {
     Column {
         HorizontalDivider(thickness = 1.dp, color = Secondary)
@@ -29,9 +31,10 @@ fun JoinBottomBar(
                 .navigationBarsPadding(),
         ) {
             PrimaryButton(
-                onClick = onJoinClick,
+                onClick = if (isJoined) onLeaveClick else onJoinClick,
                 label = if (isJoined) "Joined ✓" else "Join Now →",
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
+                enabled = !isFull || isJoined,
             )
 
         }

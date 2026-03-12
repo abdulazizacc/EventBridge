@@ -9,13 +9,51 @@ class CreateEventViewModel(
     initialState = CreateEventUiState()
 ) {
 
+    init {
+        loadCategories()
+    }
+
+    private fun loadCategories() {
+        tryToExecute(
+            callee = {
+                eventRepository.getCategory()
+            },
+            onSuccess = { categories ->
+                updateState { state ->
+                    state.copy(
+                        allCategory = categories.map { it.toUiState() },
+                    )
+                }
+            },
+        )
+    }
     fun onNextStep() {
-        val next = when (currentState.currentStep) {
-            CreateEventUiState.Step.BASIC_INFO -> CreateEventUiState.Step.DATE_AND_LOCATION
-            CreateEventUiState.Step.DATE_AND_LOCATION -> CreateEventUiState.Step.REVIEW
-            CreateEventUiState.Step.REVIEW -> return
+        updateState { it.copy(validationError = null) }
+        when (currentState.currentStep) {
+            CreateEventUiState.Step.BASIC_INFO -> {
+                if (!currentState.basicInfo.isComplete) {
+                    updateState {
+                        it.copy(
+                            validationError = "Please fill in Event Title, add an Event Banner, and select a Category.",
+                        )
+                    }
+                    return
+                }
+                updateState { it.copy(currentStep = CreateEventUiState.Step.DATE_AND_LOCATION) }
+            }
+            CreateEventUiState.Step.DATE_AND_LOCATION -> {
+                if (!currentState.dateAndLocation.isComplete) {
+                    updateState {
+                        it.copy(
+                            validationError = "Please set Event Date, Start Time, End Time, and Location.",
+                        )
+                    }
+                    return
+                }
+                updateState { it.copy(currentStep = CreateEventUiState.Step.REVIEW) }
+            }
+            CreateEventUiState.Step.REVIEW -> { /* no-op */ }
         }
-        updateState { it.copy(currentStep = next) }
     }
 
     fun onBackClicked() {
@@ -46,15 +84,30 @@ class CreateEventViewModel(
 
 
     fun onBannerSelected(bytes: ByteArray?) {
-        updateState { it.copy(basicInfo = it.basicInfo.copy(bannerBytes = bytes)) }
+        updateState {
+            it.copy(
+                basicInfo = it.basicInfo.copy(bannerBytes = bytes),
+                validationError = null,
+            )
+        }
     }
 
     fun onTitleChanged(title: String) {
-        updateState { it.copy(basicInfo = it.basicInfo.copy(title = title)) }
+        updateState {
+            it.copy(
+                basicInfo = it.basicInfo.copy(title = title),
+                validationError = null,
+            )
+        }
     }
 
-    fun onCategoryChanged(category: String) {
-        updateState { it.copy(basicInfo = it.basicInfo.copy(category = category)) }
+    fun onCategoryChanged(categoryId: Long) {
+        updateState {
+            it.copy(
+                basicInfo = it.basicInfo.copy(categoryId = categoryId),
+                validationError = null,
+            )
+        }
     }
 
     fun onDepartmentChanged(department: String) {
@@ -66,19 +119,39 @@ class CreateEventViewModel(
     }
 
     fun onDateSelected(date: String) {
-        updateState { it.copy(dateAndLocation = it.dateAndLocation.copy(date = date)) }
+        updateState {
+            it.copy(
+                dateAndLocation = it.dateAndLocation.copy(date = date),
+                validationError = null,
+            )
+        }
     }
 
     fun onStartTimeChanged(time: String) {
-        updateState { it.copy(dateAndLocation = it.dateAndLocation.copy(startTime = time)) }
+        updateState {
+            it.copy(
+                dateAndLocation = it.dateAndLocation.copy(startTime = time),
+                validationError = null,
+            )
+        }
     }
 
     fun onEndTimeChanged(time: String) {
-        updateState { it.copy(dateAndLocation = it.dateAndLocation.copy(endTime = time)) }
+        updateState {
+            it.copy(
+                dateAndLocation = it.dateAndLocation.copy(endTime = time),
+                validationError = null,
+            )
+        }
     }
 
     fun onLocationChanged(location: String) {
-        updateState { it.copy(dateAndLocation = it.dateAndLocation.copy(location = location)) }
+        updateState {
+            it.copy(
+                dateAndLocation = it.dateAndLocation.copy(location = location),
+                validationError = null,
+            )
+        }
     }
 
     fun onMapPinned(lat: Double, lng: Double) {
@@ -94,6 +167,20 @@ class CreateEventViewModel(
 
 
     fun onPublishClicked() {
+        if (!currentState.canPublish) {
+            val errors = mutableListOf<String>()
+            if (!currentState.basicInfo.isComplete) {
+                errors.add("Complete Basic Info: title, banner image, and category.")
+            }
+            if (!currentState.dateAndLocation.isComplete) {
+                errors.add("Complete Date & Location: date, start time, end time, and location.")
+            }
+            updateState {
+                it.copy(validationError = errors.joinToString(" "))
+            }
+            return
+        }
+        updateState { it.copy(validationError = null) }
         tryToExecute(
             callee = {
                 eventRepository.createEvent(currentState.toCreateEventRequest())
@@ -103,6 +190,7 @@ class CreateEventViewModel(
             },
             onSuccess = {
                 updateState { it.copy(isLoading = false) }
+                sendEffect(CreateEventUIEffect.EventPublished)
             },
             onError = {
                 updateState { it.copy(isLoading = false) }

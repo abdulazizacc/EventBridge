@@ -4,8 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.uni.eventbridge.designSystem.theme.Secondary
 import com.uni.eventbridge.designSystem.theme.SlateGray
 import com.uni.eventbridge.designSystem.theme.White
@@ -37,9 +40,9 @@ fun EventCard(
     title: String,
     date: String,
     location: String,
+    imageUrl: String? = null,
     imageRes: DrawableResource = Res.drawable.im_banner_image,
     modifier: Modifier = Modifier,
-
     onClick: () -> Unit = {},
 ) {
     Row(
@@ -50,15 +53,28 @@ fun EventCard(
             .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painterResource(imageRes),
-            contentDescription = title,
-            contentScale = ContentScale.Crop,
+        Box(
             modifier = Modifier
                 .size(90.dp)
                 .padding(top = 13.dp, bottom = 13.dp, start = 13.dp)
                 .clip(RoundedCornerShape(8.dp)),
-        )
+        ) {
+            if (!imageUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else {
+                Image(
+                    painter = painterResource(imageRes),
+                    contentDescription = title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
 
         Column(
             modifier = Modifier
