@@ -31,9 +31,11 @@ fun CreateEventScreen(
             uiState = uiState.basicInfo,
             currentStepIndex = uiState.currentStepIndex,
             totalSteps = uiState.totalSteps,
+            categories = uiState.allCategory,
+            validationError = uiState.validationError,
             onBannerSelected = viewModel::onBannerSelected,
             onTitleChanged = viewModel::onTitleChanged,
-            onCategoryChanged = viewModel::onCategoryChanged,
+            onCategoryChanged = { viewModel.onCategoryChanged(it) },
             onDepartmentChanged = viewModel::onDepartmentChanged,
             onNextStep = viewModel::onNextStep,
             onBackClicked = viewModel::onBackClicked,
@@ -44,6 +46,7 @@ fun CreateEventScreen(
             uiState = uiState.dateAndLocation,
             currentStepIndex = uiState.currentStepIndex,
             totalSteps = uiState.totalSteps,
+            validationError = uiState.validationError,
             onDateSelected = viewModel::onDateSelected,
             onStartTimeChanged = viewModel::onStartTimeChanged,
             onEndTimeChanged = viewModel::onEndTimeChanged,
@@ -55,6 +58,7 @@ fun CreateEventScreen(
 
         CreateEventUiState.Step.REVIEW -> ReviewStep(
             uiState = uiState,
+            validationError = uiState.validationError,
             onBackClicked = viewModel::onBackClicked,
             onPublishClicked = viewModel::onPublishClicked,
             onEditBasicInfo = viewModel::onEditBasicInfo,

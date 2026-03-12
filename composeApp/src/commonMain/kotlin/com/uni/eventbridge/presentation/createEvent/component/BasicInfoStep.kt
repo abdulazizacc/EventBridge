@@ -10,9 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -52,16 +51,16 @@ import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_add_image
 import org.jetbrains.compose.resources.painterResource
 
-private val categories = listOf("Music", "Sports", "Tech", "Art", "Academic", "Workshop")
-
 @Composable
 fun BasicInfoStep(
     uiState: CreateEventUiState.BasicInfoUiState,
     currentStepIndex: Int,
     totalSteps: Int,
+    categories: List<CreateEventUiState.CategoryUiState>,
+    validationError: String? = null,
     onBannerSelected: (ByteArray?) -> Unit,
     onTitleChanged: (String) -> Unit,
-    onCategoryChanged: (String) -> Unit,
+    onCategoryChanged: (Long) -> Unit,
     onDepartmentChanged: (String) -> Unit,
     onNextStep: () -> Unit,
     onBackClicked: () -> Unit,
@@ -79,7 +78,7 @@ fun BasicInfoStep(
         bottomBar = {
             Box(
                 modifier = Modifier.fillMaxWidth().background(color = White)
-            ){
+            ) {
                 PrimaryButton(
                     label = "Next Step",
                     onClick = onNextStep,
@@ -88,69 +87,73 @@ fun BasicInfoStep(
             }
         },
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            StepProgressHeader(
-                stepLabel = "Basic Info",
-                stepSublabel = "${currentStepIndex + 1} of $totalSteps",
-                progressFraction = (currentStepIndex + 1) / totalSteps.toFloat(),
-            )
+            item {
+                StepProgressHeader(
+                    stepLabel = "Basic Info",
+                    stepSublabel = "${currentStepIndex + 1} of $totalSteps",
+                    progressFraction = (currentStepIndex + 1) / totalSteps.toFloat(),
+                )
 
-            BannerPicker(onBannerSelected = onBannerSelected)
+                if (validationError != null) {
+                    Text(
+                        text = validationError,
+                        fontSize = 13.sp,
+                        color = Color(0xFFB00020),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0x1AB00020), RoundedCornerShape(8.dp))
+                            .padding(12.dp),
+                    )
+                }
 
-            StepTextField(
-                value = uiState.title,
-                onValueChange = onTitleChanged,
-                label = "Event Title",
-                hint = "e.g., Annual Tech Symposium",
-            )
+                BannerPicker(
+                    bannerBytes = uiState.bannerBytes,
+                    onBannerSelected = onBannerSelected,
+                )
 
-            CategoryDropdown(
-                selected = uiState.category,
-                onCategorySelected = onCategoryChanged,
-            )
+                StepTextField(
+                    value = uiState.title,
+                    onValueChange = onTitleChanged,
+                    label = "Event Title",
+                    hint = "e.g., Annual Tech Symposium",
+                )
 
-            StepTextField(
-                value = uiState.department,
-                onValueChange = onDepartmentChanged,
-                label = "Department Hosting",
-                hint = "e.g., Computer Science Department",
-            )
+                CategoryDropdown(
+                    categories = categories,
+                    selected = uiState.categoryId,
+                    onCategorySelected = onCategoryChanged,
+                )
 
-//            Row(verticalAlignment = Alignment.CenterVertically) {
-//                Checkbox(
-//                    checked = uiState.isPrivate,
-//                    onCheckedChange = onPrivateToggled,
-//                )
-//                Text(
-//                    text = "This is a private, invite-only event",
-//                    fontSize = 13.sp,
-//                    color = Color(0xFF444444),
-//                )
-//            }
+                StepTextField(
+                    value = uiState.department,
+                    onValueChange = onDepartmentChanged,
+                    label = "Department Hosting",
+                    hint = "e.g., Computer Science Department",
+                )
+            }
         }
+
     }
 }
 
 
 @Composable
-private fun BannerPicker(onBannerSelected: (ByteArray?) -> Unit) {
-    var imageBytes by remember { mutableStateOf<ByteArray?>(null) }
-
+private fun BannerPicker(
+    bannerBytes: ByteArray?,
+    onBannerSelected: (ByteArray?) -> Unit,
+) {
     val singleImagePicker = rememberImagePickerLauncher(
         selectionMode = SelectionMode.Single,
         scope = rememberCoroutineScope(),
         onResult = { byteArrays ->
-            byteArrays.firstOrNull()?.let {
-                imageBytes = it
-                onBannerSelected(it)
-            }
-        }
+            byteArrays.firstOrNull()?.let { onBannerSelected(it) }
+        },
     )
 
     Box(
@@ -166,9 +169,9 @@ private fun BannerPicker(onBannerSelected: (ByteArray?) -> Unit) {
             ),
         contentAlignment = Alignment.Center,
     ) {
-        if (imageBytes != null) {
+        if (bannerBytes != null && bannerBytes.isNotEmpty()) {
             AsyncImage(
-                model = imageBytes,
+                model = bannerBytes,
                 contentDescription = "Event Banner",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
@@ -222,13 +225,13 @@ private fun BannerPicker(onBannerSelected: (ByteArray?) -> Unit) {
         }
     }
 }
-// --- Category Dropdown ---
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDropdown(
-    selected: String,
-    onCategorySelected: (String) -> Unit,
+    categories: List<CreateEventUiState.CategoryUiState>,
+    selected: Long,
+    onCategorySelected: (Long) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -244,9 +247,14 @@ fun CategoryDropdown(
             onExpandedChange = { expanded = it },
         ) {
             OutlinedTextField(
-                value = selected.ifEmpty { "Select event category" },
+                value = categories.firstOrNull { it.id == selected }?.name
+                        ?: if (categories.isEmpty())
+                            "No categories available"
+                        else
+                            "Select event category",
                 onValueChange = {},
                 readOnly = true,
+                enabled = categories.isNotEmpty(),
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 },
@@ -262,26 +270,26 @@ fun CategoryDropdown(
                     unfocusedContainerColor = White
                 )
             )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                containerColor = Secondary,
-            ) {
-                categories.forEach { category ->
-                    DropdownMenuItem(
-                        text = { Text(category) },
-                        onClick = {
-                            onCategorySelected(category)
-                            expanded = false
-                        },
-                    )
+            if (categories.isNotEmpty()) {
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    containerColor = Secondary,
+                ) {
+                    categories.forEach { category ->
+                        DropdownMenuItem(
+                            text = { Text(category.name) },
+                            onClick = {
+                                onCategorySelected(category.id)
+                                expanded = false
+                            },
+                        )
+                    }
                 }
             }
         }
     }
 }
-
-// --- Text Field ---
 
 @Composable
 private fun StepTextField(
@@ -306,7 +314,7 @@ private fun StepTextField(
         EventTextField(
             value = value,
             onValueChange = onValueChange,
-            hint =hint ,
+            hint = hint,
             modifier = Modifier.fillMaxWidth(),
             maxLines = maxLines
         )

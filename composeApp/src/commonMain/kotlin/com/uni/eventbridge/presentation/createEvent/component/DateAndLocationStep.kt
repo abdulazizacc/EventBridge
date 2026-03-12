@@ -61,6 +61,7 @@ fun DateAndLocationStep(
     uiState: CreateEventUiState.DateAndLocationUiState,
     currentStepIndex: Int,
     totalSteps: Int,
+    validationError: String? = null,
     onDateSelected: (String) -> Unit,
     onStartTimeChanged: (String) -> Unit,
     onEndTimeChanged: (String) -> Unit,
@@ -101,6 +102,18 @@ fun DateAndLocationStep(
                 stepSublabel = "Date & Location",
                 progressFraction = (currentStepIndex + 1) / totalSteps.toFloat(),
             )
+
+            if (validationError != null) {
+                Text(
+                    text = validationError,
+                    fontSize = 13.sp,
+                    color = Color(0xFFB00020),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0x1AB00020), RoundedCornerShape(8.dp))
+                        .padding(12.dp),
+                )
+            }
 
             EventDateSection(
                 onDateSelected = onDateSelected,
@@ -155,7 +168,6 @@ fun DateAndLocationStep(
         }
     }
 }
-// --- Date Section ---
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -164,7 +176,6 @@ fun EventDateSection(
 ) {
     val datePickerState = rememberDatePickerState()
 
-    // sync selection to state
     datePickerState.selectedDateMillis?.let { millis ->
         val date = Instant.fromEpochMilliseconds(millis)
             .toLocalDateTime(TimeZone.currentSystemDefault()).date
@@ -267,8 +278,6 @@ fun TimePickerField(
     }
 }
 
-// --- Location Section ---
-
 @Composable
 fun LocationSection(
     location: String,
@@ -323,7 +332,6 @@ fun LocationSection(
     }
 }
 
-// --- Time Picker Dialog Wrapper ---
 
 @Composable
 private fun TimePickerDialog(

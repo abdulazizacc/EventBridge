@@ -1,5 +1,6 @@
 package com.uni.eventbridge.presentation.createEvent.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun ReviewStep(
     uiState: CreateEventUiState,
+    validationError: String? = null,
     onBackClicked: () -> Unit,
     onPublishClicked: () -> Unit,
     onEditBasicInfo: () -> Unit,
@@ -71,6 +73,18 @@ fun ReviewStep(
                 progressFraction = 1f,
             )
 
+            if (validationError != null) {
+                Text(
+                    text = validationError,
+                    fontSize = 13.sp,
+                    color = Color(0xFFB00020),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0x1AB00020), RoundedCornerShape(8.dp))
+                        .padding(12.dp),
+                )
+            }
+
             uiState.basicInfo.bannerBytes?.let {
                 if (it.isNotEmpty()) {
                     AsyncImage(
@@ -85,19 +99,21 @@ fun ReviewStep(
                 }
             }
 
-            // Basic Info Section
             ReviewSection(
                 title = "Basic Info",
                 onEditClick = onEditBasicInfo,
             ) {
                 ReviewRow(label = "TITLE", value = uiState.basicInfo.title)
-                ReviewRow(label = "CATEGORY", value = uiState.basicInfo.category)
+                ReviewRow(
+                    label = "CATEGORY",
+                    value = uiState.allCategory.firstOrNull { it.id == uiState.basicInfo.categoryId }?.name
+                        ?: ""
+                )
                 ReviewRow(label = "DEPARTMENT", value = uiState.basicInfo.department)
             }
 
             HorizontalDivider(color = Color(0xFFEEEEEE))
 
-            // Date & Location Section
             ReviewSection(
                 title = "Date & Location",
                 onEditClick = onEditDateAndLocation,
@@ -126,7 +142,6 @@ fun ReviewStep(
     }
 }
 
-// --- Review Section ---
 
 @Composable
 private fun ReviewSection(
@@ -166,8 +181,6 @@ private fun ReviewSection(
     }
 }
 
-// --- Review Row (label + value) ---
-
 @Composable
 private fun ReviewRow(
     label: String,
@@ -190,7 +203,6 @@ private fun ReviewRow(
     }
 }
 
-// --- Review Icon Row (icon + value) ---
 
 @Composable
 private fun ReviewIconRow(
