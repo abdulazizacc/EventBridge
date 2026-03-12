@@ -1,5 +1,6 @@
 package com.uni.eventbridge.data.local
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
@@ -8,6 +9,7 @@ import androidx.room.RoomDatabase
     version = 1,
     exportSchema = true
 )
+@ConstructedBy(EventBridgeDatabaseConstructor::class)
 abstract class EventBridgeDatabase : RoomDatabase() {
     abstract fun searchHistoryDao(): SearchHistoryDao
 }
