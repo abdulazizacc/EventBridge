@@ -20,7 +20,9 @@ fun EventDto.toDomain() = Event(
     venueName = venueName.orEmpty(),
     venueDetail = venueDetail.orEmpty(),
     endTime = endTime.orEmpty(),
-    organizer = organizer.orEmpty() ,
+    organizer = organizer.orEmpty(),
+    maxAttendees = maxAttendees,
+    remainingSeats = remainingSeats,
 )
 
 fun CategoryDto.toDomain() = Category(
