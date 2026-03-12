@@ -18,8 +18,11 @@ sealed interface Route {
     data object CreateEvent : Route
     @Serializable
     data object Login : Route
+    @Serializable
+    data object Splash : Route
 }
 fun Route.toNavString(): String = when (this) {
+    Route.Splash -> "splash"
     Route.Home -> "home"
     Route.Explore -> "explore"
     Route.Events -> "events"
