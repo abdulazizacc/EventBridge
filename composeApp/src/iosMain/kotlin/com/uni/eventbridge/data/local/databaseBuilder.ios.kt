@@ -11,9 +11,11 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<EventBridgeDatabase> {
         name = dbFile
     )
 }
+
+@Suppress(names = ["NO_ACTUAL_FOR_EXPECT"])
 actual object EventBridgeDatabaseConstructor :
     RoomDatabaseConstructor<EventBridgeDatabase> {
-    actual override fun initialize(): EventBridgeDatabase {
-        error("ios Room.databaseBuilder")
+    override fun initialize(): EventBridgeDatabase {
+        error("ios will build by itself")
     }
 }

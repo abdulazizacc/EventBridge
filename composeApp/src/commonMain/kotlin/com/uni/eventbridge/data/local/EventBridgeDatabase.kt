@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [SearchHistoryEntity::class],
     version = 1,
-    exportSchema = true
 )
 @ConstructedBy(EventBridgeDatabaseConstructor::class)
 abstract class EventBridgeDatabase : RoomDatabase() {

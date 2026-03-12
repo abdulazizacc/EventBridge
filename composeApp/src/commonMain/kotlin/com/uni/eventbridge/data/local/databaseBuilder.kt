@@ -10,7 +10,6 @@ fun buildDatabase(builder: RoomDatabase.Builder<EventBridgeDatabase>): EventBrid
         .fallbackToDestructiveMigration(true)
         .build()
 }
+@Suppress("NO_ACTUAL_FOR_EXPECT")
+expect object EventBridgeDatabaseConstructor : RoomDatabaseConstructor<EventBridgeDatabase>
 
-expect object EventBridgeDatabaseConstructor : RoomDatabaseConstructor<EventBridgeDatabase> {
-    override fun initialize(): EventBridgeDatabase
-}
