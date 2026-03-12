@@ -8,7 +8,7 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.uni.eventbridge.data.remoteData.GoogleSignInHelper
+import com.uni.eventbridge.data.remote.GoogleSignInHelper
 import kotlin.coroutines.cancellation.CancellationException
 
 class AndroidGoogleSignInHelper(
