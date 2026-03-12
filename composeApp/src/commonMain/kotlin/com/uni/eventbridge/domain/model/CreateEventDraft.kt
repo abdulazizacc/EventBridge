@@ -2,8 +2,9 @@ package com.uni.eventbridge.domain.model
 
 data class CreateEventDraft(
     val title: String,
-    val category: String,
+    val categoryId: Long,
     val department: String,
+    val organizerId: Long,
     val bannerBytes: ByteArray? = null,
     val date: String,
     val startTime: String,
