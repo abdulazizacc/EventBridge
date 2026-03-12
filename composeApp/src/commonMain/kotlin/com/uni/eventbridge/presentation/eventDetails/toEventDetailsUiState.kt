@@ -10,7 +10,7 @@ fun Event.toUiState() = EventDetailsUiState(
     heroImageUrl = bannerUrl,
     date = date,
     category = category.toUiState(),
-    timeRange = time,
+    timeRange = startTime,
 )
 
 fun Category.toUiState() = EventDetailsUiState.CategoryUiState(

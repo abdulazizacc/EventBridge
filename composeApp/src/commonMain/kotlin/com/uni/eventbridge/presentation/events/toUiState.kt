@@ -5,7 +5,7 @@ import com.uni.eventbridge.domain.entity.Event
 fun Event.toUiState() = EventsUiState.EventUiState(
     id = id,
     title = name,
-    date = "$date • $time",
+    date = "$date • $startTime",
     location = location,
     imageUrl = bannerUrl,
 )
