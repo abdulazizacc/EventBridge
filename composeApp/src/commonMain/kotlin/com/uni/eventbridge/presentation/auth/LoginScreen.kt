@@ -51,16 +51,9 @@ fun LoginScreen(
 
 
 
-    LaunchedEffect(Unit) {
-        viewModel.uiEffect.collect { effect ->
-            when (effect) {
-                is AuthEffect.NavigateToHome -> {
-                    onNavigateToHome()
-                }
-
-                is AuthEffect.ShowError -> { /* optionally show a Snackbar */
-                }
-            }
+    LaunchedEffect(uiState.isAuthenticated) {
+        if (uiState.isAuthenticated) {
+            onNavigateToHome()
         }
     }
 
