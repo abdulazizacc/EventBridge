@@ -15,10 +15,11 @@ class AuthViewModel(
         tryToCollect(
             flowProvider = { authRepository.observeAuthState() },
             onNewValue = { isAuthenticated ->
-
-                if (isAuthenticated) {
-                    updateState { it.copy(isLoading = false) }
-                    sendEffect(AuthEffect.NavigateToHome)
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        isAuthenticated = isAuthenticated
+                    )
                 }
             },
             onError = { e ->
@@ -33,7 +34,6 @@ class AuthViewModel(
             onSuccess = { },
             onError = { e ->
                 updateState { it.copy(error = e.message ?: "Sign in failed") }
-                sendEffect(AuthEffect.ShowError(e.message ?: "Sign in failed"))
             },
             onFinally = { updateState { it.copy(isLoading = false) } }
         )
