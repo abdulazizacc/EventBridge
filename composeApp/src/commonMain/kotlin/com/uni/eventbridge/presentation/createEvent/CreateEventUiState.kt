@@ -1,5 +1,8 @@
 package com.uni.eventbridge.presentation.createEvent
 
+import com.uni.eventbridge.domain.model.Location
+import com.uni.eventbridge.domain.model.MapRoute
+
 data class CreateEventUiState(
     val isLoading: Boolean = false,
     val currentStep: Step = Step.BASIC_INFO,
@@ -7,6 +10,7 @@ data class CreateEventUiState(
     val dateAndLocation: DateAndLocationUiState = DateAndLocationUiState(),
     val allCategory: List<CategoryUiState> =emptyList(),
     val validationError: String? = null,
+    val route: MapRoute? = null,
 ) {
     enum class Step { BASIC_INFO, DATE_AND_LOCATION, REVIEW }
 
@@ -32,9 +36,11 @@ data class CreateEventUiState(
         val startTime: String = "",
         val endTime: String = "",
         val location: String = "",
-        val pinLatitude: Double? = null,
-        val pinLongitude: Double? = null,
+        val pinnedLocation:Location? = null,
+        val userLocation: Location? = null
     ) {
+        val pinLatitude: Double? get() = pinnedLocation?.latitude
+        val pinLongitude: Double? get() = pinnedLocation?.longitude
         val isComplete: Boolean
             get() = date.isNotBlank() &&
                 startTime.isNotBlank() &&
