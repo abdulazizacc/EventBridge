@@ -16,6 +16,8 @@ fun Event.toUiState() = EventDetailsUiState(
     category = category.toUiState(),
     maxAttendees = maxAttendees,
     remainingSeats = remainingSeats,
+    pinLatitude = latitude,
+    pinLongitude = longitude,
     organizer = organizer,
     isFull = remainingSeats != null && remainingSeats <= 0,
     )
