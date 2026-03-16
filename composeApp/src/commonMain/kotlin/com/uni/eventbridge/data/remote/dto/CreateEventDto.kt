@@ -17,6 +17,8 @@ data class CreateEventDto(
     val date: String,
     @SerialName("time")
     val time: String,
+    @SerialName("end_time")
+    val endTime: String,
     @SerialName("category_id")
     val categoryId: Long,
     @SerialName("venue_name")
@@ -25,4 +27,8 @@ data class CreateEventDto(
     val venueDetail: String? = null,
     @SerialName("max_attendees")
     val maxAttendees: Int? = null,
+    @SerialName("pin_longitude")
+    val longitude: Double? = null,
+    @SerialName("pin_latitude")
+    val latitude: Double? = null,
 )
