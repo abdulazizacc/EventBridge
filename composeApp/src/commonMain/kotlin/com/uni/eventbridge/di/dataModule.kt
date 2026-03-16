@@ -4,14 +4,20 @@ import com.uni.eventbridge.data.local.EventBridgeDatabase
 import com.uni.eventbridge.data.local.SearchHistoryLocalDataSource
 import com.uni.eventbridge.data.local.buildDatabase
 import com.uni.eventbridge.data.local.getDatabaseBuilder
+import com.uni.eventbridge.data.repository.LocationRepositoryImpl
 import com.uni.eventbridge.data.repository.SearchRepositoryImpl
 import com.uni.eventbridge.data.repository.SupabaseAuthRepository
 import com.uni.eventbridge.data.repository.SupabaseEventRepository
 import com.uni.eventbridge.data.repository.SupabaseProfileRepository
 import com.uni.eventbridge.domain.repository.AuthRepository
 import com.uni.eventbridge.domain.repository.EventRepository
+import com.uni.eventbridge.domain.repository.LocationRepository
 import com.uni.eventbridge.domain.repository.ProfileRepository
 import com.uni.eventbridge.domain.repository.SearchRepository
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -29,4 +35,20 @@ val dataModule = module {
             localDataSource = get(),
             remoteDataSource = get(),
         )
-    }}
+    }
+
+    single {
+        HttpClient {
+            install(ContentNegotiation) {
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                })
+            }
+        }
+    }
+
+
+    single<LocationRepository> { LocationRepositoryImpl(get(), get()) }
+
+}

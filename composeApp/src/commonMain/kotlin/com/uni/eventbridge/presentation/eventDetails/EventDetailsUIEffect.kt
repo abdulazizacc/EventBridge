@@ -5,11 +5,5 @@ sealed interface EventDetailsUIEffect {
     data object ShowJoinSuccessSnakeBar : EventDetailsUIEffect
     data object ShowLeaveSuccessSnackBar : EventDetailsUIEffect
     data class ShowErrorSnackBar(val message: String) : EventDetailsUIEffect
-
-//    data class OpenInMaps(
-//        val latitude: Double?,
-//        val longitude: Double?,
-//        val venueName: String,
-//        val venueDetail: String,
-//    ) : EventDetailsUIEffect
+    data class OpenNavigationMap(val lat: Double, val lon: Double) : EventDetailsUIEffect
 }

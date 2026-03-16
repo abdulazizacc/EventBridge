@@ -14,6 +14,8 @@ data class Event(
     val venueName: String,
     val venueDetail: String,
     val organizer: String,
+    val latitude: Double?,
+    val longitude: Double?,
     val maxAttendees: Int?,
     val remainingSeats: Int?,
 )

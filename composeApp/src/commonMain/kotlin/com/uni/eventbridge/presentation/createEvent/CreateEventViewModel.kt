@@ -1,16 +1,44 @@
 package com.uni.eventbridge.presentation.createEvent
 
+import com.uni.eventbridge.domain.model.Location
 import com.uni.eventbridge.domain.repository.EventRepository
+import com.uni.eventbridge.domain.repository.LocationRepository
 import com.uni.eventbridge.presentation.common.BaseViewModel
+import io.github.aakira.napier.Napier
 
 class CreateEventViewModel(
     private val eventRepository: EventRepository,
+    private val locationRepository: LocationRepository
+
 ) : BaseViewModel<CreateEventUiState, CreateEventUIEffect>(
     initialState = CreateEventUiState()
 ) {
 
     init {
         loadCategories()
+        loadUserLocation()
+    }
+
+    fun loadUserLocation() {
+        tryToExecute(
+            callee = { locationRepository.getCurrentLocation() },
+            onSuccess = { location ->
+                Napier.d(
+                    tag = "lolol",
+                    message = "DEBUG: got location ${location.latitude}, ${location.longitude}"
+                )
+
+                updateState {
+                    it.copy(
+                        dateAndLocation = it.dateAndLocation.copy(userLocation = location)
+                    )
+                }
+            },
+            onError = { error ->
+                Napier.d(tag = "lolol", message = "DEBUG: loadUserLocation error: ${error.message}")
+            }
+
+        )
     }
 
     private fun loadCategories() {
@@ -27,6 +55,7 @@ class CreateEventViewModel(
             },
         )
     }
+
     fun onNextStep() {
         updateState { it.copy(validationError = null) }
         when (currentState.currentStep) {
@@ -41,6 +70,7 @@ class CreateEventViewModel(
                 }
                 updateState { it.copy(currentStep = CreateEventUiState.Step.DATE_AND_LOCATION) }
             }
+
             CreateEventUiState.Step.DATE_AND_LOCATION -> {
                 if (!currentState.dateAndLocation.isComplete) {
                     updateState {
@@ -52,7 +82,9 @@ class CreateEventViewModel(
                 }
                 updateState { it.copy(currentStep = CreateEventUiState.Step.REVIEW) }
             }
-            CreateEventUiState.Step.REVIEW -> { /* no-op */ }
+
+            CreateEventUiState.Step.REVIEW -> { /* no-op */
+            }
         }
     }
 
@@ -154,12 +186,11 @@ class CreateEventViewModel(
         }
     }
 
-    fun onMapPinned(lat: Double, lng: Double) {
+    fun onMapPinned(lat: Double, lon: Double) {
         updateState {
             it.copy(
                 dateAndLocation = it.dateAndLocation.copy(
-                    pinLatitude = lat,
-                    pinLongitude = lng
+                    pinnedLocation = Location(lat, lon),
                 )
             )
         }
@@ -180,6 +211,16 @@ class CreateEventViewModel(
             }
             return
         }
+
+        val draft = uiState.value.toCreateEventRequest()
+        Napier.d(
+            tag = "LocationDebug",
+            message = "draft pinLat=${draft.pinLatitude} pinLon=${draft.pinLongitude}"
+        )
+        Napier.d(tag = "LocationDebug", message = "draft location=${draft.location}")
+        Napier.d(tag = "LocationDebug", message = "draft date=${draft.date}")
+
+
         updateState { it.copy(validationError = null) }
         tryToExecute(
             callee = {

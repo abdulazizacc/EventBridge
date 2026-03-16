@@ -1,6 +1,9 @@
 package com.uni.eventbridge
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +21,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         supabase.handleDeeplinks(intent)
         Napier.base(DebugAntilog())
+
+        if (
+            checkSelfPermission(ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                ),
+                1001
+            )
+        }
+
         setContent {
             App()
         }

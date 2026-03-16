@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,20 +57,23 @@ private fun HomeContent(
 ) {
     val categoryScrollState = rememberLazyListState()
 
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 300.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(color = White),
         verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
+
+        item(span = { GridItemSpan(maxLineSpan) }) {
             BadgeTopBar(
                 title = "Discover Events",
                 leadingIcon = painterResource(Res.drawable.ic_hat),
             )
         }
 
-        item {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             CategorySection(
                 allCategories = uiState.allCategories,
                 selectedCategory = uiState.selectedCategoryId,
@@ -80,7 +85,7 @@ private fun HomeContent(
 
         items(
             items = uiState.events,
-            key = { it.id },
+            key = { it.id }
         ) { event ->
             HomeEventCard(
                 imageUrl = event.bannerUrl.takeIf { it.isNotBlank() },
@@ -90,8 +95,9 @@ private fun HomeContent(
                 category = event.category.name.takeIf { it.isNotBlank() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 8.dp),
                 onClick = { onEventClicked(event.id) },
+                onJoinClick = {}
             )
         }
     }

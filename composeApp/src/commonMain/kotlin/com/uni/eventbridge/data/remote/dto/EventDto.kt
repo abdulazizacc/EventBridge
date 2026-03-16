@@ -15,7 +15,7 @@ data class EventDto(
     val bannerUrl: String,
     @SerialName("location")
     val location: String? = null,
-    @SerialName("")
+    @SerialName("date")
     val date: String? = null,
     @SerialName("is_active")
     val isActive: Boolean,
@@ -35,4 +35,8 @@ data class EventDto(
     val maxAttendees: Int? = null,
     @SerialName("remaining_seats")
     val remainingSeats: Int? = null,
+    @SerialName("pin_latitude")
+    val latitude: Double? = null,
+    @SerialName("pin_longitude")
+    val longitude: Double? = null
 )

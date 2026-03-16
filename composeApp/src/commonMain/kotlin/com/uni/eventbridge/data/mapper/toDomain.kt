@@ -7,6 +7,7 @@ import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
 import com.uni.eventbridge.domain.model.CreateEventDraft
 
+
 fun EventDto.toDomain() = Event(
     id = id,
     name = name.orEmpty(),
@@ -23,6 +24,8 @@ fun EventDto.toDomain() = Event(
     organizer = organizer.orEmpty(),
     maxAttendees = maxAttendees,
     remainingSeats = remainingSeats,
+    longitude = longitude,
+    latitude = latitude
 )
 
 fun CategoryDto.toDomain() = Category(
@@ -39,5 +42,8 @@ fun CreateEventDraft.toDto(
     location = location,
     date = date,
     time = startTime,
+    endTime= endTime,
     categoryId = categoryId,
+    longitude = pinLongitude,
+    latitude = pinLatitude,
 )

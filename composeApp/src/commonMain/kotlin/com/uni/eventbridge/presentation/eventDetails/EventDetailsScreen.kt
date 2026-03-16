@@ -29,6 +29,7 @@ import com.uni.eventbridge.presentation.eventDetails.component.EventHeader
 import com.uni.eventbridge.presentation.eventDetails.component.EventInfoRows
 import com.uni.eventbridge.presentation.eventDetails.component.HeroSection
 import com.uni.eventbridge.presentation.eventDetails.component.JoinBottomBar
+import com.uni.eventbridge.presentation.eventDetails.component.MapSection
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,6 +39,7 @@ fun EventDetailsScreen(
     eventId: Long,
     viewModel: EventDetailsViewModel = koinViewModel(parameters = { parametersOf(eventId) }),
     onNavigateBack: () -> Unit,
+    onNavigateToMap: (Double, Double) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -53,7 +55,10 @@ fun EventDetailsScreen(
 
                 is EventDetailsUIEffect.ShowErrorSnackBar ->
                     snackbarHostState.showSnackbar(effect.message)
+
                 EventDetailsUIEffect.NavigateBack -> onNavigateBack()
+
+                is EventDetailsUIEffect.OpenNavigationMap -> onNavigateToMap(effect.lat, effect.lon)
             }
         }
     }
@@ -64,6 +69,7 @@ fun EventDetailsScreen(
         onBackClick = viewModel::onBackClicked,
         onJoinClick = viewModel::onJoinEventClick,
         onLeaveClick = viewModel::onLeaveEventClick,
+        onNavigateClick = viewModel::onNavigateClick
     )
 }
 
@@ -74,6 +80,7 @@ fun EventDetailsContent(
     onBackClick: () -> Unit = {},
     onJoinClick: () -> Unit = {},
     onLeaveClick: () -> Unit = {},
+    onNavigateClick: () -> Unit = {},
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         EventBridgeScaffold(
@@ -95,7 +102,7 @@ fun EventDetailsContent(
                 item {
                     Box {
                         HeroSection(
-                            imageUrl = uiState.heroImageUrl,
+                            imageUrl = uiState.heroImageUrl.orEmpty(),
                             onBackClick = onBackClick,
                         )
 
@@ -113,23 +120,34 @@ fun EventDetailsContent(
                         {
                             EventHeader(
                                 category = uiState.category,
-                                title = uiState.title,
-                                organizer = uiState.organizer,
-                                organizerAvatarUrl = uiState.organizerAvatarUrl,
+                                title = uiState.title.orEmpty(),
+                                organizer = uiState.organizer.orEmpty(),
+                                organizerAvatarUrl = uiState.organizerAvatarUrl.orEmpty(),
                             )
 
                             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
-
                             EventInfoRows(
-                                date = uiState.date,
-                                timeRange = uiState.startTime,
-                                venueName = uiState.venueName,
-                                venueDetail = uiState.venueDetail,
+                                date = uiState.date.orEmpty(),
+                                timeRange = "${uiState.startTime} - ${uiState.endTime}",
+                                venueName = uiState.venueName.orEmpty(),
+                                venueDetail = uiState.venueDetail.orEmpty(),
                             )
 
                             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
 
-                            AboutSection(description = uiState.description)
+                            if (uiState.pinLatitude != null && uiState.pinLongitude != null) {
+                                MapSection(
+                                    onNavigateClick = onNavigateClick,
+                                )
+
+                                HorizontalDivider(
+                                    color = MaterialTheme.colorScheme.outline.copy(
+                                        alpha = 0.15f
+                                    )
+                                )
+                            }
+
+                            AboutSection(description = uiState.description.orEmpty())
 
                         }
                     }

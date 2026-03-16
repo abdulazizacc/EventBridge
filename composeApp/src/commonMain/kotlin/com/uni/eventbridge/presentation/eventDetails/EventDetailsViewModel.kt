@@ -15,14 +15,11 @@ class EventDetailsViewModel(
         loadEventDetails()
     }
 
-    private fun loadEventDetails(){
+    private fun loadEventDetails() {
         tryToExecute(
             callee = {
-                Napier.d(tag = "loadEventDetails", message = "Fetching eventId=$eventId")
                 val event = eventRepository.getEventDetailsById(eventId)
-                Napier.d(tag = "loadEventDetails", message = "Event fetched: $event")
                 val joined = eventRepository.isUserJoined(eventId)
-                Napier.d(tag = "loadEventDetails", message = "isJoined=$joined")
                 Pair(event, joined)
             },
             onStart = {
@@ -32,18 +29,22 @@ class EventDetailsViewModel(
                 Napier.d(tag = "loadEventDetails", message = "onSuccess called")
                 updateState {
                     event.toUiState().copy(
-                        isLoading    = false,
+                        isLoading = false,
                         isRegistered = joined,
                     )
                 }
             },
             onError = { throwable ->
-                Napier.e(tag = "loadEventDetails", message = "Error: ${throwable.message} cause: ${throwable.cause}")
+                Napier.e(
+                    tag = "loadEventDetails",
+                    message = "Error: ${throwable.message} cause: ${throwable.cause}"
+                )
                 updateState { it.copy(isLoading = false) }
                 sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to load event details"))
             }
         )
     }
+
     fun onJoinEventClick() {
         val state = currentState
         if (state.isFull) {
@@ -56,7 +57,7 @@ class EventDetailsViewModel(
             onSuccess = {
                 updateState {
                     it.copy(
-                        isLoading    = false,
+                        isLoading = false,
                         isRegistered = true,
                         remainingSeats = it.remainingSeats?.minus(1),
                     )
@@ -79,7 +80,7 @@ class EventDetailsViewModel(
             onSuccess = {
                 updateState {
                     it.copy(
-                        isLoading    = false,
+                        isLoading = false,
                         isRegistered = false,
                         remainingSeats = it.remainingSeats?.plus(1),
                     )
@@ -91,6 +92,12 @@ class EventDetailsViewModel(
                 sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to leave event. Please try again."))
             }
         )
+    }
+
+    fun onNavigateClick() {
+        val lat = currentState.pinLatitude ?: return
+        val lon = currentState.pinLongitude ?: return
+        sendEffect(EventDetailsUIEffect.OpenNavigationMap(lat, lon))
     }
 
     fun onBackClicked() {

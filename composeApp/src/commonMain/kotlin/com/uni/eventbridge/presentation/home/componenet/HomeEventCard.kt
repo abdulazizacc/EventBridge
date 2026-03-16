@@ -46,7 +46,7 @@ fun HomeEventCard(
     location: String,
     category: String? = null,
     onClick: () -> Unit = {},
-    onRegisterClick: () -> Unit = {},
+    onJoinClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -137,8 +137,8 @@ fun HomeEventCard(
                 }
 
                 PrimaryButton(
-                    onClick = onRegisterClick,
-                    label = "Register"
+                    onClick = onJoinClick,
+                    label = "Join"
                 )
             }
         }
@@ -155,6 +155,6 @@ fun Preview() {
         title = "Annual Spring Hackathon",
         location = "Student Union Hall, Main Campus",
         category = "Trending",
-        onRegisterClick = { /* navigate */ }
+        onJoinClick = { /* navigate */ }
     )
 }
