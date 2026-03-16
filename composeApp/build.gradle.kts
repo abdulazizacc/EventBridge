@@ -37,6 +37,9 @@ kotlin {
             implementation(libs.google.identity)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play)
+            implementation(libs.maplibre.android.sdk)
+            implementation(libs.fused.location)
+            implementation(libs.kotlinx.coroutines.play.services)
 
         }
         commonMain.dependencies {
@@ -64,6 +67,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.room.runtime)
+            implementation(libs.maplibre.compose)
+
+            implementation(libs.accompanist.permissions)
 
 
             implementation("io.github.aakira:napier:2.7.1")
