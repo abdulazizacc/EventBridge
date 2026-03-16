@@ -14,6 +14,8 @@ import com.uni.eventbridge.presentation.createEvent.CreateEventScreen
 import com.uni.eventbridge.presentation.eventDetails.EventDetailsScreen
 import com.uni.eventbridge.presentation.events.EventsScreen
 import com.uni.eventbridge.presentation.home.HomeScreen
+import com.uni.eventbridge.presentation.map.MapNavigationScreen
+import com.uni.eventbridge.presentation.profile.ProfileScreen
 import com.uni.eventbridge.presentation.search.SearchScreen
 import com.uni.eventbridge.presentation.splashScreen.SplashScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -100,7 +102,21 @@ fun NavGraph(
         }
 
         composable(Route.Account.toNavString()) {
-            // TODO: AccountScreen()
+            ProfileScreen(
+                onNavigateToSignIn = {
+                    navController.navigate(Route.Login.toNavString())
+                },
+            )
+        }
+
+        composable("navigation_map/{lat}/{lon}") { backStackEntry ->
+            val lat = backStackEntry.arguments?.getString("lat")?.toDouble() ?: return@composable
+            val lon = backStackEntry.arguments?.getString("lon")?.toDouble() ?: return@composable
+            MapNavigationScreen(
+                eventLat = lat,
+                eventLon = lon,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable("event_details/{eventId}") { backStackEntry ->
@@ -108,6 +124,9 @@ fun NavGraph(
             EventDetailsScreen(
                 eventId = eventId.toLong(),
                 onNavigateBack = { navController.popBackStack() },
+                onNavigateToMap = { lat, lon ->
+                    navController.navigate("navigation_map/$lat/$lon")
+                }
             )
         }
     }
