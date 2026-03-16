@@ -8,8 +8,8 @@ class EventBridgeApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin(){
-            modules(platformModule,)
             androidContext(this@EventBridgeApp)
+            modules(platformModule,)
         }
     }
 }

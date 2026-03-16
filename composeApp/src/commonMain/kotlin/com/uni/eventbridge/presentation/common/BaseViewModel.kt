@@ -55,7 +55,7 @@ abstract class BaseViewModel<STATE , EFFECT>(
     protected fun <T> tryToCollect(
         flowProvider: suspend () -> Flow<T>,
         onNewValue: suspend (T) -> Unit,
-        onError: (Throwable) -> Unit
+        onError: (Throwable) -> Unit = {},
     ): Job {
         val handler = CoroutineExceptionHandler { _, throwable ->
             onError(throwable)
