@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.eventbridge.presentation.createEvent.component.BasicInfoStep
+import com.uni.eventbridge.presentation.createEvent.component.DateAndLocationStep
 import com.uni.eventbridge.presentation.createEvent.component.ReviewStep
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -42,19 +43,24 @@ fun CreateEventScreen(
             onCancelClicked = viewModel::onCancelClicked,
         )
 
-        CreateEventUiState.Step.DATE_AND_LOCATION -> DateAndLocationStep(
-            uiState = uiState.dateAndLocation,
-            currentStepIndex = uiState.currentStepIndex,
-            totalSteps = uiState.totalSteps,
-            validationError = uiState.validationError,
-            onDateSelected = viewModel::onDateSelected,
-            onStartTimeChanged = viewModel::onStartTimeChanged,
-            onEndTimeChanged = viewModel::onEndTimeChanged,
-            onLocationChanged = viewModel::onLocationChanged,
-            onMapPinned = viewModel::onMapPinned,
-            onNextStep = viewModel::onNextStep,
-            onBackClicked = viewModel::onBackClicked,
-        )
+        CreateEventUiState.Step.DATE_AND_LOCATION -> {
+            LaunchedEffect(Unit) {
+                viewModel.loadUserLocation()
+            }
+            DateAndLocationStep(
+                uiState = uiState.dateAndLocation,
+                currentStepIndex = uiState.currentStepIndex,
+                totalSteps = uiState.totalSteps,
+                validationError = uiState.validationError,
+                onDateSelected = viewModel::onDateSelected,
+                onStartTimeChanged = viewModel::onStartTimeChanged,
+                onEndTimeChanged = viewModel::onEndTimeChanged,
+                onLocationChanged = viewModel::onLocationChanged,
+                onMapPinned = viewModel::onMapPinned,
+                onNextStep = viewModel::onNextStep,
+                onBackClicked = viewModel::onBackClicked,
+            )
+        }
 
         CreateEventUiState.Step.REVIEW -> ReviewStep(
             uiState = uiState,

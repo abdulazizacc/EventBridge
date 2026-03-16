@@ -1,4 +1,4 @@
-package com.uni.eventbridge.presentation.createEvent
+package com.uni.eventbridge.presentation.createEvent.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,16 +35,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.uni.eventbridge.designSystem.EventBridgeScaffold
-import com.uni.eventbridge.designSystem.EventTextField
 import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
-import com.uni.eventbridge.presentation.createEvent.component.StepBottomBar
-import com.uni.eventbridge.presentation.createEvent.component.StepProgressHeader
+import com.uni.eventbridge.presentation.createEvent.CreateEventUiState
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_add
 import kotlinx.datetime.Instant
@@ -128,8 +122,12 @@ fun DateAndLocationStep(
 
             LocationSection(
                 location = uiState.location,
+                pinnedLocation = uiState.pinnedLocation,
+                userLocation = uiState.userLocation,
                 onLocationChanged = onLocationChanged,
+                onMapPinned = onMapPinned,
             )
+
         }
     }
 
@@ -278,60 +276,6 @@ fun TimePickerField(
     }
 }
 
-@Composable
-fun LocationSection(
-    location: String,
-    onLocationChanged: (String) -> Unit,
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        SectionTitle("Location")
-
-        EventTextField(
-            value = location,
-            onValueChange = onLocationChanged,
-            hint = "Room number or venue name",
-            leadingIcon =
-                painterResource(Res.drawable.ic_add),
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFFF0F2F8))
-                .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Button(
-                onClick = { /* TODO: integrate map */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Primary),
-                shape = RoundedCornerShape(24.dp),
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_add),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp),
-                )
-                Text(
-                    text = "  Pin on Map",
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
-        }
-
-        Text(
-            text = "Selecting a pin will help students find the exact entrance.",
-            fontSize = 11.sp,
-            color = Color(0xFFAAAAAA),
-        )
-    }
-}
-
 
 @Composable
 private fun TimePickerDialog(
@@ -357,15 +301,6 @@ private fun TimePickerDialog(
     )
 }
 
-@Composable
-private fun SectionTitle(text: String) {
-    Text(
-        text = text,
-        fontSize = 15.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xFF0D1B2A),
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
