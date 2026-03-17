@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem.topBar
+package com.uni.eventbridge.presentation.common.component.topBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,10 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.PrimaryContainer
-import com.uni.eventbridge.designSystem.theme.SurfaceDark
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.PrimaryContainer
+import com.uni.eventbridge.presentation.common.component.theme.SurfaceDark
+import com.uni.eventbridge.presentation.common.component.theme.White
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_explore
 import org.jetbrains.compose.resources.painterResource

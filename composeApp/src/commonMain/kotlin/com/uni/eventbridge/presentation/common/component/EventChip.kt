@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem
+package com.uni.eventbridge.presentation.common.component
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.TweenSpec
@@ -12,11 +12,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.uni.eventbridge.designSystem.modifier.noRippleClickable
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.SlateGray
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.SlateGray
+import com.uni.eventbridge.presentation.common.component.theme.White
 
 
 @Composable

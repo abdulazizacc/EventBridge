@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.domain.model.Location
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.White
 import org.maplibre.compose.camera.CameraPosition
 import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.map.MapOptions

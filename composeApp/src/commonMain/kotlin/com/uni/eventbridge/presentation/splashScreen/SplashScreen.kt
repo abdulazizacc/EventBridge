@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.uni.eventbridge.designSystem.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_login_logo
 import org.jetbrains.compose.resources.painterResource

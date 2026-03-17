@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.designSystem.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_google
 import eventbridge.composeapp.generated.resources.ic_login_logo

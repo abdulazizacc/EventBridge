@@ -26,10 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.uni.eventbridge.designSystem.PrimaryButton
-import com.uni.eventbridge.designSystem.theme.Red
-import com.uni.eventbridge.designSystem.theme.SlateGray
-import com.uni.eventbridge.designSystem.theme.SurfaceDark
+import com.uni.eventbridge.presentation.common.component.PrimaryButton
+import com.uni.eventbridge.presentation.common.component.theme.Red
+import com.uni.eventbridge.presentation.common.component.theme.SlateGray
+import com.uni.eventbridge.presentation.common.component.theme.SurfaceDark
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_location
 import eventbridge.composeapp.generated.resources.im_banner_image

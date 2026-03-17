@@ -2,7 +2,6 @@ package com.uni.eventbridge.presentation.eventDetails
 
 import com.uni.eventbridge.domain.repository.EventRepository
 import com.uni.eventbridge.presentation.common.BaseViewModel
-import io.github.aakira.napier.Napier
 
 class EventDetailsViewModel(
     private val eventRepository: EventRepository,
@@ -26,8 +25,7 @@ class EventDetailsViewModel(
                 updateState { it.copy(isLoading = true) }
             },
             onSuccess = { (event, joined) ->
-                Napier.d(tag = "loadEventDetails", message = "onSuccess called")
-                updateState {
+               updateState {
                     event.toUiState().copy(
                         isLoading = false,
                         isRegistered = joined,
@@ -35,10 +33,6 @@ class EventDetailsViewModel(
                 }
             },
             onError = { throwable ->
-                Napier.e(
-                    tag = "loadEventDetails",
-                    message = "Error: ${throwable.message} cause: ${throwable.cause}"
-                )
                 updateState { it.copy(isLoading = false) }
                 sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to load event details"))
             }

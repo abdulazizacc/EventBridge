@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem.modifier
+package com.uni.eventbridge.presentation.common.component.modifier
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

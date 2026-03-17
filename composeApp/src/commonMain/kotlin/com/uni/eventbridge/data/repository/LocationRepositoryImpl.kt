@@ -6,7 +6,6 @@ import com.uni.eventbridge.data.remote.dto.OrsRouteResponse
 import com.uni.eventbridge.domain.model.Location
 import com.uni.eventbridge.domain.model.MapRoute
 import com.uni.eventbridge.domain.repository.LocationRepository
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
@@ -41,13 +40,6 @@ class LocationRepositoryImpl(
             }
             setBody("""{"coordinates":[[${origin.longitude},${origin.latitude}],[${destination.longitude},${destination.latitude}]]}""")
         }.bodyAsText()
-        Napier.d(
-            tag = "NavigationDebug",
-            message = "raw coordinates: ${origin.longitude},${origin.latitude}],[${destination.longitude},${destination.latitude}"
-        )
-
-        Napier.d(tag = "NavigationDebug", message = "raw response: $rawResponse")
-
         val response: OrsRouteResponse = Json { ignoreUnknownKeys = true }
             .decodeFromString(rawResponse)
 

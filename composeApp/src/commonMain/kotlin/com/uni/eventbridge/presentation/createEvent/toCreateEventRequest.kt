@@ -4,17 +4,17 @@ import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.model.CreateEventDraft
 
 fun CreateEventUiState.toCreateEventRequest() = CreateEventDraft(
-    title = basicInfo.title,
+    title = basicInfo.title.orEmpty(),
     categoryId = basicInfo.categoryId,
-    department = basicInfo.department,
+    department = basicInfo.department.orEmpty(),
     bannerBytes = basicInfo.bannerBytes,
-    date = dateAndLocation.date,
-    startTime = dateAndLocation.startTime,
-    endTime = dateAndLocation.endTime,
-    location = dateAndLocation.location,
+    date = dateAndLocation.date.orEmpty(),
+    startTime = dateAndLocation.startTime.orEmpty(),
+    endTime = dateAndLocation.endTime.orEmpty(),
+    location = dateAndLocation.location.orEmpty(),
     pinLatitude = dateAndLocation.pinLatitude,
     pinLongitude = dateAndLocation.pinLongitude,
-    description = basicInfo.description,
+    description = basicInfo.description.orEmpty(),
     organizerId = 0L,
 )
 

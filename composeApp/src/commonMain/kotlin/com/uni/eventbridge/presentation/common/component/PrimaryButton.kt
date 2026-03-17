@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem
+package com.uni.eventbridge.presentation.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.White
 
 @Composable
 @Preview

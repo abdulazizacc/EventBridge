@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.uni.eventbridge.designSystem.BottomNavigation
+import com.uni.eventbridge.presentation.common.component.BottomNavigation
 import com.uni.eventbridge.presentation.navigation.NavGraph
 
 @Composable

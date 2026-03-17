@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem
+package com.uni.eventbridge.presentation.common.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.uni.eventbridge.designSystem.modifier.noRippleClickable
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.SlateGray
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.SlateGray
+import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.navigation.BottomNavigationRoute
 import com.uni.eventbridge.presentation.navigation.toNavString
 import org.jetbrains.compose.resources.DrawableResource

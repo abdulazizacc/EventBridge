@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem
+package com.uni.eventbridge.presentation.common.component
 
 
 import androidx.compose.animation.Crossfade
