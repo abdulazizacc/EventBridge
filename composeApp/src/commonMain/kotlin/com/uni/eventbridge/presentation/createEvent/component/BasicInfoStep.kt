@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -61,7 +62,7 @@ fun BasicInfoStep(
     onBannerSelected: (ByteArray?) -> Unit,
     onTitleChanged: (String) -> Unit,
     onCategoryChanged: (Long) -> Unit,
-    onDepartmentChanged: (String) -> Unit,
+    onDescriptionChanged: (String) -> Unit,
     onNextStep: () -> Unit,
     onBackClicked: () -> Unit,
     onCancelClicked: () -> Unit,
@@ -118,7 +119,7 @@ fun BasicInfoStep(
                 )
 
                 StepTextField(
-                    value = uiState.title,
+                    value = uiState.title.orEmpty(),
                     onValueChange = onTitleChanged,
                     label = "Event Title",
                     hint = "e.g., Annual Tech Symposium",
@@ -131,10 +132,12 @@ fun BasicInfoStep(
                 )
 
                 StepTextField(
-                    value = uiState.department,
-                    onValueChange = onDepartmentChanged,
-                    label = "Department Hosting",
+                    value = uiState.description.orEmpty(),
+                    onValueChange = onDescriptionChanged,
+                    label = "Description",
                     hint = "e.g., Computer Science Department",
+                    maxLines = 5,
+                    modifier = Modifier.heightIn(min = 120.dp)
                 )
             }
         }
@@ -278,7 +281,7 @@ fun CategoryDropdown(
                 ) {
                     categories.forEach { category ->
                         DropdownMenuItem(
-                            text = { Text(category.name) },
+                            text = { Text(category.name.orEmpty()) },
                             onClick = {
                                 onCategorySelected(category.id)
                                 expanded = false
@@ -301,7 +304,6 @@ private fun StepTextField(
     maxLines: Int = 1,
 ) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(
@@ -315,8 +317,8 @@ private fun StepTextField(
             value = value,
             onValueChange = onValueChange,
             hint = hint,
-            modifier = Modifier.fillMaxWidth(),
-            maxLines = maxLines
+            modifier = modifier.fillMaxWidth(),
+            maxLines = maxLines,
         )
     }
 }

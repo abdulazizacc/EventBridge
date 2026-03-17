@@ -114,14 +114,14 @@ fun DateAndLocationStep(
             )
 
             TimeSection(
-                startTime = uiState.startTime,
-                endTime = uiState.endTime,
+                startTime = uiState.startTime.orEmpty(),
+                endTime = uiState.endTime.orEmpty(),
                 onStartPickerToggle = { showStartTimePicker = true },
                 onEndPickerToggle = { showEndTimePicker = true },
             )
 
             LocationSection(
-                location = uiState.location,
+                location = uiState.location.orEmpty(),
                 pinnedLocation = uiState.pinnedLocation,
                 userLocation = uiState.userLocation,
                 onLocationChanged = onLocationChanged,

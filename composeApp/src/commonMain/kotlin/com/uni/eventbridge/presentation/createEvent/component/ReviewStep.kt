@@ -103,13 +103,13 @@ fun ReviewStep(
                 title = "Basic Info",
                 onEditClick = onEditBasicInfo,
             ) {
-                ReviewRow(label = "TITLE", value = uiState.basicInfo.title)
+                ReviewRow(label = "TITLE", value = uiState.basicInfo.title.orEmpty())
                 ReviewRow(
                     label = "CATEGORY",
                     value = uiState.allCategory.firstOrNull { it.id == uiState.basicInfo.categoryId }?.name
                         ?: ""
                 )
-                ReviewRow(label = "DEPARTMENT", value = uiState.basicInfo.department)
+                ReviewRow(label = "DEPARTMENT", value = uiState.basicInfo.department.orEmpty())
             }
 
             HorizontalDivider(color = Color(0xFFEEEEEE))
@@ -124,7 +124,7 @@ fun ReviewStep(
                 )
                 ReviewIconRow(
                     icon = Res.drawable.ic_location,
-                    value = uiState.dateAndLocation.location,
+                    value = uiState.dateAndLocation.location.orEmpty(),
                 )
             }
 
