@@ -1,7 +1,6 @@
 package com.uni.eventbridge.designSystem.topBar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.uni.eventbridge.designSystem.modifier.noRippleClickable
+import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.designSystem.theme.SurfaceDark
 import com.uni.eventbridge.designSystem.theme.White
 import eventbridge.composeapp.generated.resources.Res
@@ -61,13 +62,15 @@ fun DefaultTopBar(
         if (actionLabel != null && onActionClick != null) {
             Text(
                 text = actionLabel,
-                color = SurfaceDark,
-                fontSize = 20.sp,
+                color = Primary,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .clickable { onActionClick() }
                     .padding(end = 12.dp)
+                    .noRippleClickable(
+                        onClick = { onActionClick() }
+                    )
             )
         }
     }

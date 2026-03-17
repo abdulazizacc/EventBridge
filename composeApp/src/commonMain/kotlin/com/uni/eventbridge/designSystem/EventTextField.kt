@@ -47,7 +47,6 @@ fun EventTextField(
     readOnly: Boolean = false,
     leadingIcon: Painter? = null,
     maxLines: Int = 1,
-    maxCharacter: Int = 32
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val textFieldFocusRequester = remember { FocusRequester() }
@@ -66,7 +65,7 @@ fun EventTextField(
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment =  if (maxLines > 1) Alignment.Top else Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
             .background(color = White, shape = RoundedCornerShape(12.dp))
@@ -93,11 +92,12 @@ fun EventTextField(
         Box(
             Modifier
                 .fillMaxWidth()
-                .align(Alignment.CenterVertically)
+                .align(Alignment.Top)
                 .then(
                     if (leadingIcon == null) Modifier.padding(top = 5.dp)
                     else Modifier.align(Alignment.CenterVertically)
-                )
+                ),
+            contentAlignment = Alignment.TopStart,
         ) {
             if (value.isEmpty() && !isFocused) {
                 Text(
@@ -108,7 +108,7 @@ fun EventTextField(
             BasicTextField(
                 value = value,
                 onValueChange = { input ->
-                    input.takeIf { it.length <= maxCharacter }?.let(onValueChange)
+                    input.let(onValueChange)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
