@@ -10,9 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
-import eventbridge.composeapp.generated.resources.ic_login_logo
+import eventbridge.composeapp.generated.resources.ic_logo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -22,9 +21,9 @@ fun SplashScreen() {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            painter = painterResource(Res.drawable.ic_login_logo),
+            painter = painterResource(Res.drawable.ic_logo),
             contentDescription = null,
-            tint = Primary,
+            tint = Color.Unspecified,
             modifier = Modifier.size(96.dp)
         )
     }

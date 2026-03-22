@@ -36,10 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_google
-import eventbridge.composeapp.generated.resources.ic_login_logo
+import eventbridge.composeapp.generated.resources.ic_logo
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -93,9 +92,9 @@ private fun LoginScreenContent(
             ) {
 
                 Icon(
-                    painter = painterResource(resource = Res.drawable.ic_login_logo),
+                    painter = painterResource(resource = Res.drawable.ic_logo),
                     contentDescription = "Uni Logo",
-                    tint = Primary,
+                    tint = Color.Unspecified,
                     modifier = Modifier.size(96.dp)
                 )
 
@@ -103,7 +102,7 @@ private fun LoginScreenContent(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Welcome to\nUniEvents",
+                    text = "Welcome to\nEventBridge",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF0D1B2A),
