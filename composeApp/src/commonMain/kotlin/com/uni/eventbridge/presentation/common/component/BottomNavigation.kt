@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
@@ -59,7 +60,7 @@ fun BottomNavigation(
             animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
         )
     ) {
-        Column {
+        Column(modifier.fillMaxWidth().navigationBarsPadding()) {
             HorizontalDivider(
                 color = Secondary,
                 thickness = 1.dp,
