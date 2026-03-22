@@ -2,7 +2,7 @@ package com.uni.eventbridge.data.mapper
 
 import com.uni.eventbridge.data.remote.dto.OrsRouteResponse
 import com.uni.eventbridge.domain.model.MapRoute
-import com.uni.eventbridge.utl.decodePolyline
+import com.uni.eventbridge.util.decodePolyline
 
 fun OrsRouteResponse.toDomain(): MapRoute {
     val route = routes.first()

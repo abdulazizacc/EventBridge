@@ -29,12 +29,12 @@ fun PrimaryButton(
 ) {
     val backgroundColor = if (enabled) Primary else Secondary
     val textColor = if (enabled) White else White.copy(alpha = 0.6f)
-    Box(
+        Box(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .background(color = backgroundColor, shape = RoundedCornerShape(verticalPadding.dp))
-            .clickable { onClick() },
+            .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Text(
