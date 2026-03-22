@@ -1,4 +1,4 @@
-package com.uni.eventbridge.utl
+package com.uni.eventbridge.util
 
 import com.uni.eventbridge.domain.model.Location
 
