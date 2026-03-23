@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.uni.eventbridge.designSystem.PrimaryButton
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.PrimaryButton
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.White
 
 @Composable
 fun JoinBottomBar(

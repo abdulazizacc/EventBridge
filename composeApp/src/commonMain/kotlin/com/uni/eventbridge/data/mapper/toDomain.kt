@@ -43,6 +43,7 @@ fun CreateEventDraft.toDto(
     date = date,
     time = startTime,
     endTime= endTime,
+    department = department,
     categoryId = categoryId,
     longitude = pinLongitude,
     latitude = pinLatitude,

@@ -28,9 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.uni.eventbridge.designSystem.EventBridgeScaffold
-import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
+import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.createEvent.CreateEventUiState
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_calendder
@@ -103,13 +103,13 @@ fun ReviewStep(
                 title = "Basic Info",
                 onEditClick = onEditBasicInfo,
             ) {
-                ReviewRow(label = "TITLE", value = uiState.basicInfo.title)
+                ReviewRow(label = "TITLE", value = uiState.basicInfo.title.orEmpty())
                 ReviewRow(
                     label = "CATEGORY",
                     value = uiState.allCategory.firstOrNull { it.id == uiState.basicInfo.categoryId }?.name
                         ?: ""
                 )
-                ReviewRow(label = "DEPARTMENT", value = uiState.basicInfo.department)
+                ReviewRow(label = "DEPARTMENT", value = uiState.basicInfo.department.orEmpty())
             }
 
             HorizontalDivider(color = Color(0xFFEEEEEE))
@@ -124,7 +124,7 @@ fun ReviewStep(
                 )
                 ReviewIconRow(
                     icon = Res.drawable.ic_location,
-                    value = uiState.dateAndLocation.location,
+                    value = uiState.dateAndLocation.location.orEmpty(),
                 )
             }
 

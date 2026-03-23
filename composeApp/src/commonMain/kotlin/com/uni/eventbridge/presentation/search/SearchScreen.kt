@@ -49,9 +49,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.designSystem.theme.Primary
 import com.uni.eventbridge.domain.entity.Event
 import com.uni.eventbridge.domain.model.SearchHistoryItem
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_close
 import eventbridge.composeapp.generated.resources.ic_explore

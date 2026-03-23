@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uni.eventbridge.designSystem.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 
 @Composable
 fun StepBottomBar(

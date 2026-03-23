@@ -31,4 +31,6 @@ data class CreateEventDto(
     val longitude: Double? = null,
     @SerialName("pin_latitude")
     val latitude: Double? = null,
+    @SerialName("department")
+    val department: String,
 )

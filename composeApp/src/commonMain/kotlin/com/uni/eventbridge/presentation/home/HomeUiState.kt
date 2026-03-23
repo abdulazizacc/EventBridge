@@ -15,7 +15,10 @@ data class HomeUiState(
         val date: String = "",
         val isActive: Boolean = true,
         val isLoading: Boolean = false,
-        val category: CategoryUiState = CategoryUiState()
+        val category: CategoryUiState = CategoryUiState(),
+        val remainingSeats: Int? = null,
+        val isFull: Boolean = false,
+        val isRegistered: Boolean = false,
     )
 
     data class CategoryUiState(

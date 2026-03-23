@@ -37,7 +37,7 @@ fun CreateEventScreen(
             onBannerSelected = viewModel::onBannerSelected,
             onTitleChanged = viewModel::onTitleChanged,
             onCategoryChanged = { viewModel.onCategoryChanged(it) },
-            onDepartmentChanged = viewModel::onDepartmentChanged,
+            onDescriptionChanged = viewModel::onDescriptionChanged,
             onNextStep = viewModel::onNextStep,
             onBackClicked = viewModel::onBackClicked,
             onCancelClicked = viewModel::onCancelClicked,

@@ -12,7 +12,10 @@ fun Event.toUiState() = HomeUiState.EventUiState(
     location = location,
     date = date,
     isActive = isActive,
-    category = category.toUiState()
+    category = category.toUiState(),
+    remainingSeats = remainingSeats,
+    isFull = remainingSeats != null && remainingSeats <= 0,
+    isRegistered = false,
 )
 
 fun Category.toUiState() = HomeUiState.CategoryUiState(

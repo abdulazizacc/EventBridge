@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,13 +40,13 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.preat.peekaboo.image.picker.SelectionMode
 import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
-import com.uni.eventbridge.designSystem.EventBridgeScaffold
-import com.uni.eventbridge.designSystem.EventTextField
-import com.uni.eventbridge.designSystem.PrimaryButton
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
+import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
+import com.uni.eventbridge.presentation.common.component.EventTextField
+import com.uni.eventbridge.presentation.common.component.PrimaryButton
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.createEvent.CreateEventUiState
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_add_image
@@ -61,7 +62,7 @@ fun BasicInfoStep(
     onBannerSelected: (ByteArray?) -> Unit,
     onTitleChanged: (String) -> Unit,
     onCategoryChanged: (Long) -> Unit,
-    onDepartmentChanged: (String) -> Unit,
+    onDescriptionChanged: (String) -> Unit,
     onNextStep: () -> Unit,
     onBackClicked: () -> Unit,
     onCancelClicked: () -> Unit,
@@ -118,7 +119,7 @@ fun BasicInfoStep(
                 )
 
                 StepTextField(
-                    value = uiState.title,
+                    value = uiState.title.orEmpty(),
                     onValueChange = onTitleChanged,
                     label = "Event Title",
                     hint = "e.g., Annual Tech Symposium",
@@ -131,10 +132,12 @@ fun BasicInfoStep(
                 )
 
                 StepTextField(
-                    value = uiState.department,
-                    onValueChange = onDepartmentChanged,
-                    label = "Department Hosting",
+                    value = uiState.description.orEmpty(),
+                    onValueChange = onDescriptionChanged,
+                    label = "Description",
                     hint = "e.g., Computer Science Department",
+                    maxLines = 5,
+                    modifier = Modifier.heightIn(min = 120.dp)
                 )
             }
         }
@@ -278,7 +281,7 @@ fun CategoryDropdown(
                 ) {
                     categories.forEach { category ->
                         DropdownMenuItem(
-                            text = { Text(category.name) },
+                            text = { Text(category.name.orEmpty()) },
                             onClick = {
                                 onCategorySelected(category.id)
                                 expanded = false
@@ -301,7 +304,6 @@ private fun StepTextField(
     maxLines: Int = 1,
 ) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(
@@ -315,8 +317,8 @@ private fun StepTextField(
             value = value,
             onValueChange = onValueChange,
             hint = hint,
-            modifier = Modifier.fillMaxWidth(),
-            maxLines = maxLines
+            modifier = modifier.fillMaxWidth(),
+            maxLines = maxLines,
         )
     }
 }

@@ -40,11 +40,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.uni.eventbridge.designSystem.EventBridgeScaffold
-import com.uni.eventbridge.designSystem.theme.Primary
-import com.uni.eventbridge.designSystem.theme.Secondary
-import com.uni.eventbridge.designSystem.theme.White
 import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
+import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
+import com.uni.eventbridge.presentation.common.component.theme.Primary
+import com.uni.eventbridge.presentation.common.component.theme.Secondary
+import com.uni.eventbridge.presentation.common.component.theme.White
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_arrow_right
 import eventbridge.composeapp.generated.resources.ic_doc

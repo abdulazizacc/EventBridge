@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.uni.eventbridge.designSystem.EventChip
+import com.uni.eventbridge.presentation.common.component.EventChip
 import com.uni.eventbridge.presentation.home.HomeUiState.CategoryUiState
 
 

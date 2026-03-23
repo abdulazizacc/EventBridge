@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.designSystem.EventBridgeScaffold
-import com.uni.eventbridge.designSystem.theme.White
+import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
+import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.eventDetails.component.AboutSection
 import com.uni.eventbridge.presentation.eventDetails.component.EventHeader
 import com.uni.eventbridge.presentation.eventDetails.component.EventInfoRows
