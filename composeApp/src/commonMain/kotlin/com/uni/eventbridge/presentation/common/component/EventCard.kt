@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.SlateGray
 import com.uni.eventbridge.presentation.common.component.theme.White
@@ -40,6 +42,7 @@ fun EventCard(
     title: String,
     date: String,
     location: String,
+    state: String?,
     imageUrl: String? = null,
     imageRes: DrawableResource = Res.drawable.im_banner_image,
     modifier: Modifier = Modifier,
@@ -81,6 +84,17 @@ fun EventCard(
                 .padding(start = 16.dp, top = 13.dp)
                 .align(Alignment.Top)
         ) {
+            state?.let {
+                Text(
+                    text = state,
+                    color = White,
+                    modifier = modifier
+                        .noRippleClickable { onClick() }
+                        .background(color = Primary, shape = RoundedCornerShape(100))
+                        .padding(vertical = 4.dp, horizontal = 12.dp)
+                )
+            }
+
             Text(
                 text = title,
                 fontSize = 18.sp,
@@ -129,5 +143,6 @@ private fun EventCardPreview() {
         title = "AI & Ethics Workshop",
         date = "Oct 26, 2023 • 2:30 PM",
         location = "sammaarra",
+        state = ""
     )
 }

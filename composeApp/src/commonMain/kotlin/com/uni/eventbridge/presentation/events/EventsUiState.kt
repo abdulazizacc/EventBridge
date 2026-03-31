@@ -10,5 +10,6 @@ data class EventsUiState(
         val date: String,
         val location: String,
         val imageUrl: String,
+        val state: String? = null
     )
 }

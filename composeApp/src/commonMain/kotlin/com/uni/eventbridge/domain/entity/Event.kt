@@ -18,4 +18,5 @@ data class Event(
     val longitude: Double?,
     val maxAttendees: Int?,
     val remainingSeats: Int?,
+    val state: String
 )

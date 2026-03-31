@@ -122,7 +122,6 @@ fun EventDetailsContent(
                                 category = uiState.category,
                                 title = uiState.title.orEmpty(),
                                 organizer = uiState.organizer.orEmpty(),
-                                organizerAvatarUrl = uiState.organizerAvatarUrl.orEmpty(),
                             )
 
                             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))

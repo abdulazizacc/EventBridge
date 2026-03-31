@@ -8,4 +8,5 @@ fun Event.toUiState() = EventsUiState.EventUiState(
     date = "$date • $startTime",
     location = location,
     imageUrl = bannerUrl,
+    state = state
 )

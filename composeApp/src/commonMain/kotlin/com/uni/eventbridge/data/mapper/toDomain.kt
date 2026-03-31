@@ -25,7 +25,8 @@ fun EventDto.toDomain() = Event(
     maxAttendees = maxAttendees,
     remainingSeats = remainingSeats,
     longitude = longitude,
-    latitude = latitude
+    latitude = latitude,
+    state = state.orEmpty()
 )
 
 fun CategoryDto.toDomain() = Category(
