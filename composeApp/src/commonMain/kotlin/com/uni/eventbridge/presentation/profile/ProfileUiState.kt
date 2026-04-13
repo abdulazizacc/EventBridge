@@ -7,4 +7,5 @@ data class ProfileUiState(
     val attendedCount: Int = 0,
     val organizedCount: Int = 0,
     val showSignOutDialog: Boolean = false,
+    val showTermOfServiceDialog: Boolean = false,
 )
