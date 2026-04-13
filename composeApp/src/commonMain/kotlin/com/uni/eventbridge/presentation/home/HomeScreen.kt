@@ -105,7 +105,7 @@ private fun HomeContent(
                 selectedCategory = uiState.selectedCategoryId,
                 onCategorySelected = { onCategorySelected(it?.id) },
                 listState = categoryScrollState,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 14.dp),
             )
         }
 
