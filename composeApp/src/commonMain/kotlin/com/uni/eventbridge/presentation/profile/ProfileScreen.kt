@@ -55,7 +55,6 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
     onNavigateToSignIn: () -> Unit,
     onNavigateToContactUs: () -> Unit = {},
-    onNavigateToTermsOfService: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -64,7 +63,6 @@ fun ProfileScreen(
             when (effect) {
                 is ProfileUIEffect.NavigateToSignIn -> onNavigateToSignIn()
                 is ProfileUIEffect.NavigateToContactUs -> onNavigateToContactUs()
-                is ProfileUIEffect.NavigateToTermsOfService -> onNavigateToTermsOfService()
             }
         }
     }

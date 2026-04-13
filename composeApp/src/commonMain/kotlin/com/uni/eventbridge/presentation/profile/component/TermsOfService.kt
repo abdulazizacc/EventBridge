@@ -25,7 +25,7 @@ fun TermOfService(
         shape = RoundedCornerShape(20.dp),
         text = {
             Text(
-                text = "All events here in this platform follow do follow the Iraqi lows and tikrit university lows for the types of events it have",
+                text = "All events on this platform comply with Iraqi laws and Tikrit University regulations regarding the types of events they may host.",
                 fontSize = 18.sp,
                 color = Color(0xFF4C4C4C),
                 textAlign = TextAlign.Center,
