@@ -97,6 +97,7 @@ private fun EventsContent(
                     location = event.location,
                     imageUrl = event.imageUrl.takeIf { it.isNotBlank() },
                     onClick = { onEventClicked(event.id) },
+                    state = event.state
                 )
             }
         }
@@ -115,6 +116,7 @@ private fun EventsContentPreview() {
                     date = "Oct 24, 2023 • 10:00 AM",
                     location = "Grand University Hall",
                     imageUrl = "",
+                    state = "Upcoming"
 
                     ),
                 EventsUiState.EventUiState(
@@ -123,6 +125,7 @@ private fun EventsContentPreview() {
                     date = "Oct 26, 2023 • 2:30 PM",
                     location = "Innovation Tech Hub",
                     imageUrl = "",
+                    state = "Upcoming"
                 ),
                 EventsUiState.EventUiState(
                     id = 3,
@@ -130,6 +133,7 @@ private fun EventsContentPreview() {
                     date = "Dec 12, 2023 • 6:00 PM",
                     location = "University Stadium",
                     imageUrl = "",
+                    state = ""
                 ),
             )
         )

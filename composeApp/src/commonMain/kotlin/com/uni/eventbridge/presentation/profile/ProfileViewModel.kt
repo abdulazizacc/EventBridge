@@ -33,13 +33,14 @@ class ProfileViewModel(
         sendEffect(ProfileUIEffect.NavigateToContactUs)
     }
 
-    fun onTermsOfServiceClicked() {
-        sendEffect(ProfileUIEffect.NavigateToTermsOfService)
-    }
-
     fun onSignOutClicked() {
         updateState { it.copy(showSignOutDialog = true) }
     }
+
+    fun onTermsOfServiceClicked() {
+        updateState { it.copy(showTermOfServiceDialog = true) }
+    }
+
 
     fun onSignOutConfirmed() {
         tryToExecute(
@@ -52,6 +53,9 @@ class ProfileViewModel(
         )
     }
 
+    fun onTermOfServiceDismissed() {
+        updateState { it.copy(showTermOfServiceDialog = false) }
+    }
     fun onSignOutDismissed() {
         updateState { it.copy(showSignOutDialog = false) }
     }

@@ -38,5 +38,7 @@ data class EventDto(
     @SerialName("pin_latitude")
     val latitude: Double? = null,
     @SerialName("pin_longitude")
-    val longitude: Double? = null
+    val longitude: Double? = null,
+    @SerialName("status")
+    val state: String?= null
 )

@@ -46,7 +46,7 @@ fun LocationSection(
 ) {
     var showMap by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        SectionTitle("Location")
+        SectionTitle("Venue Name")
 
         EventTextField(
             value = location,
