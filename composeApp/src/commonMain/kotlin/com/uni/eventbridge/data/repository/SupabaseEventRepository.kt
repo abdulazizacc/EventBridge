@@ -5,9 +5,12 @@ import com.uni.eventbridge.data.mapper.toDto
 import com.uni.eventbridge.data.remote.dto.CategoryDto
 import com.uni.eventbridge.data.remote.dto.EventDto
 import com.uni.eventbridge.data.remote.dto.MembershipInsert
+import com.uni.eventbridge.data.remote.dto.ProfileDto
+import com.uni.eventbridge.data.remote.dto.toDomain
 import com.uni.eventbridge.data.remote.supabase
 import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
+import com.uni.eventbridge.domain.entity.User
 import com.uni.eventbridge.domain.model.CreateEventDraft
 import com.uni.eventbridge.domain.repository.EventRepository
 import io.github.aakira.napier.Napier
@@ -20,10 +23,10 @@ import kotlin.time.Clock
 class SupabaseEventRepository : EventRepository {
 
     override suspend fun getCategory(): List<Category> {
-        val result = supabase.postgrest["categories"].select()
-        Napier.d (tag = "CategoryProblem", message = "Raw result from Supabase:  ${result.data}")
-
-        return result.decodeList<CategoryDto>().map { it.toDomain() }
+        return supabase.postgrest
+            .rpc("get_categories")
+            .decodeList<CategoryDto>()
+            .map { it.toDomain() }
     }
 
     override suspend fun getEventDetailsById(eventId: Long): Event =
@@ -31,7 +34,7 @@ class SupabaseEventRepository : EventRepository {
             "get_event_by_id",
             mapOf("p_event_id" to eventId)
         ).decodeList<EventDto>()
-            .first ()
+            .first()
             .toDomain()
 
     override suspend fun getEventByCategory(categoryId: Long?): List<Event> =
@@ -44,7 +47,7 @@ class SupabaseEventRepository : EventRepository {
         searchEvent(query)
 
     override suspend fun searchEvent(query: String): List<Event> {
-       return supabase.postgrest.rpc(
+        return supabase.postgrest.rpc(
             "search_events",
             mapOf("query" to query)
         ).decodeList<EventDto>().map { it.toDomain() }
@@ -58,7 +61,6 @@ class SupabaseEventRepository : EventRepository {
         try {
             supabase.postgrest["memberships"]
                 .insert(MembershipInsert(eventId, userId))
-            Napier.d(tag = "joinEvent", message = "Insert completed successfully")
         } catch (e: Exception) {
             Napier.e(tag = "joinEvent", message = "Insert failed: ${e.message}")
         }
@@ -113,5 +115,15 @@ class SupabaseEventRepository : EventRepository {
 
         val dto = request.toDto(bannerUrl)
         supabase.postgrest["events"].insert(dto)
+    }
+
+    override suspend fun getEventAttendance(eventId: Long): List<User> {
+        val x = supabase.postgrest.rpc(
+            "get_event_attendees",
+            mapOf("p_event_id" to eventId)
+        ).decodeList<ProfileDto>().map { it.toDomain() }
+        Napier.d(tag = "getEventAttendees", message = "Raw result from Supabase:  ${x}")
+
+        return x
     }
 }

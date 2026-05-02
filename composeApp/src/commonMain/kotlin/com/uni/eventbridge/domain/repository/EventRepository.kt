@@ -2,6 +2,7 @@ package com.uni.eventbridge.domain.repository
 
 import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
+import com.uni.eventbridge.domain.entity.User
 import com.uni.eventbridge.domain.model.CreateEventDraft
 
 interface EventRepository {
@@ -20,6 +21,7 @@ interface EventRepository {
     suspend fun createEvent(request: CreateEventDraft)
     suspend fun isUserJoined(eventId: Long): Boolean
     suspend fun searchEvent(query: String): List<Event>
+    suspend fun getEventAttendance(eventId: Long): List<User>
 
 }
 
