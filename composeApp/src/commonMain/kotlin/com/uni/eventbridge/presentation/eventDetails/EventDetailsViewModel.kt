@@ -11,34 +11,36 @@ class EventDetailsViewModel(
 ) {
 
     init {
-        loadEventDetails()
+        loadEventData()
     }
 
-    private fun loadEventDetails() {
+    private fun loadEventData() {
         tryToExecute(
             callee = {
                 val event = eventRepository.getEventDetailsById(eventId)
                 val joined = eventRepository.isUserJoined(eventId)
-                Pair(event, joined)
+                val attendees = eventRepository.getEventAttendance(eventId)
+                Triple(event, joined, attendees)
             },
             onStart = {
                 updateState { it.copy(isLoading = true) }
             },
-            onSuccess = { (event, joined) ->
-               updateState {
+            onSuccess = { (event, joined, attendees) ->
+                updateState {
                     event.toUiState().copy(
-                        isLoading = false,
                         isRegistered = joined,
+                        attendees = attendees,
+                        attendanceAvatarUrls = attendees.map { it.avatarUrl },
+                        isLoading = false
                     )
                 }
             },
-            onError = { throwable ->
+            onError = {
                 updateState { it.copy(isLoading = false) }
-                sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to load event details"))
+                sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to load event"))
             }
         )
     }
-
     fun onJoinEventClick() {
         val state = currentState
         if (state.isFull) {
@@ -96,6 +98,14 @@ class EventDetailsViewModel(
 
     fun onBackClicked() {
         sendEffect(EventDetailsUIEffect.NavigateBack)
+    }
+
+    fun onAttendeesClick() {
+        updateState { it.copy(showAttendanceDialog = true) }
+    }
+
+    fun onDismissAttendanceDialog() {
+        updateState { it.copy(showAttendanceDialog = false) }
     }
 
 }

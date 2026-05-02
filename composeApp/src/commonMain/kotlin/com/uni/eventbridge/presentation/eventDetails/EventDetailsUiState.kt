@@ -29,6 +29,9 @@ data class EventDetailsUiState(
     val pinLongitude: Double? = null,
     val userLocation: Location? = null,
     val route: MapRoute? = null,
+    val attendees: List<com.uni.eventbridge.domain.entity.User> = emptyList(),
+    val showAttendanceDialog: Boolean = false,
+    val attendanceAvatarUrls: List<String> = emptyList(),
 ) {
     data class CategoryUiState(
         val id: Long = 0L,
