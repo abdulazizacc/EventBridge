@@ -25,6 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.eventDetails.component.AboutSection
+import com.uni.eventbridge.presentation.eventDetails.component.AttendanceDialog
+import com.uni.eventbridge.presentation.eventDetails.component.AttendeesRow
 import com.uni.eventbridge.presentation.eventDetails.component.EventHeader
 import com.uni.eventbridge.presentation.eventDetails.component.EventInfoRows
 import com.uni.eventbridge.presentation.eventDetails.component.HeroSection
@@ -69,7 +71,9 @@ fun EventDetailsScreen(
         onBackClick = viewModel::onBackClicked,
         onJoinClick = viewModel::onJoinEventClick,
         onLeaveClick = viewModel::onLeaveEventClick,
-        onNavigateClick = viewModel::onNavigateClick
+        onNavigateClick = viewModel::onNavigateClick,
+        onAttendeesClick = viewModel::onAttendeesClick,
+        onDismissAttendanceDialog = viewModel::onDismissAttendanceDialog
     )
 }
 
@@ -81,8 +85,16 @@ fun EventDetailsContent(
     onJoinClick: () -> Unit = {},
     onLeaveClick: () -> Unit = {},
     onNavigateClick: () -> Unit = {},
+    onAttendeesClick: () -> Unit = {},
+    onDismissAttendanceDialog: () -> Unit = {},
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
+        if (uiState.showAttendanceDialog) {
+            AttendanceDialog(
+                attendees = uiState.attendees,
+                onDismiss = onDismissAttendanceDialog
+            )
+        }
         EventBridgeScaffold(
             isLoading = uiState.isLoading,
             bottomBar = {
@@ -147,6 +159,10 @@ fun EventDetailsContent(
                             }
 
                             AboutSection(description = uiState.description.orEmpty())
+                            AttendeesRow(
+                                avatarUrls = uiState.attendanceAvatarUrls,
+                                onClick = onAttendeesClick
+                            )
 
                         }
                     }

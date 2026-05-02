@@ -84,9 +84,9 @@ fun EventCard(
                 .padding(start = 16.dp, top = 13.dp)
                 .align(Alignment.Top)
         ) {
-            state?.let {
+            state?.takeIf { it.isNotBlank() }?.let {
                 Text(
-                    text = state,
+                    text = it,
                     color = White,
                     modifier = modifier
                         .noRippleClickable { onClick() }
