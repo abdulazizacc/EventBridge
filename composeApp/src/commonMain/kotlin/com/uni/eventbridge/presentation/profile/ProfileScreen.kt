@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,17 +30,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
 import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
+import com.uni.eventbridge.presentation.common.component.topBar.DefaultTopBar
 import com.uni.eventbridge.presentation.profile.component.SignOutDialog
 import com.uni.eventbridge.presentation.profile.component.TermOfService
 import eventbridge.composeapp.generated.resources.Res
@@ -127,13 +126,10 @@ private fun ProfileContent(
 
             Text(
                 text = uiState.fullName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleLarge,
                 color = Color(0xFF1A1A2E),
                 modifier = Modifier.padding(top = 16.dp)
             )
-
-
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -175,10 +171,9 @@ private fun ProfileAccountDetails(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "ACCOUNT DETAILS",
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.labelLarge,
             color = Color(0xFF9E9E9E),
-            letterSpacing = 1.sp,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
 
@@ -240,14 +235,13 @@ private fun ProfileMenuItem(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.titleMedium,
                 color = Color(0xFF1A1A2E),
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFF9E9E9E),
                 )
             }
@@ -290,8 +284,7 @@ private fun ProfileSignOutRow(onSignOutClicked: () -> Unit) {
 
         Text(
             text = "Sign Out",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.titleMedium,
             color = Color(0xFFE53935),
         )
     }

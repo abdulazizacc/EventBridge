@@ -37,10 +37,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
 import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.White
+import com.uni.eventbridge.presentation.common.component.topBar.DefaultTopBar
 import com.uni.eventbridge.presentation.createEvent.CreateEventUiState
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_add

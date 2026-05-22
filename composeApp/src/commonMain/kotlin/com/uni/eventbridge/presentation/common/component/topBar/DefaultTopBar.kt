@@ -1,4 +1,4 @@
-package com.uni.eventbridge.designSystem.topBar
+package com.uni.eventbridge.presentation.common.component.topBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,10 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.SurfaceDark
@@ -54,8 +52,7 @@ fun DefaultTopBar(
         Text(
             text = title,
             color = SurfaceDark,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.align(Alignment.Center)
         )
 
@@ -63,8 +60,7 @@ fun DefaultTopBar(
             Text(
                 text = actionLabel,
                 color = Primary,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = 12.dp)

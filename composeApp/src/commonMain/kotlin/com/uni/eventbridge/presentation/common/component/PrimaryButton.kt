@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
@@ -29,7 +29,8 @@ fun PrimaryButton(
 ) {
     val backgroundColor = if (enabled) Primary else Secondary
     val textColor = if (enabled) White else White.copy(alpha = 0.6f)
-        Box(
+    
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -40,7 +41,7 @@ fun PrimaryButton(
         Text(
             text = label,
             color = textColor,
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(vertical = 12.dp)
         )
     }

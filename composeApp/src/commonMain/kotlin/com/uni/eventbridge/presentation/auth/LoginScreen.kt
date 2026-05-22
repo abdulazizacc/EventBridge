@@ -30,11 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_google
@@ -103,19 +101,16 @@ private fun LoginScreenContent(
 
                 Text(
                     text = "Welcome to\nEventBridge",
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineMedium,
                     color = Color(0xFF0D1B2A),
                     textAlign = TextAlign.Center,
-                    lineHeight = 34.sp
                 )
 
                 Text(
                     text = "Sign in to access your campus\ncommunity.",
-                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF8A94A6),
                     textAlign = TextAlign.Center,
-                    lineHeight = 22.sp
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -150,8 +145,7 @@ private fun LoginScreenContent(
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = "Continue with Google",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                style = MaterialTheme.typography.labelLarge,
                                 color = Color.White
                             )
                         }
@@ -162,7 +156,7 @@ private fun LoginScreenContent(
                     Text(
                         text = error,
                         color = MaterialTheme.colorScheme.error,
-                        fontSize = 13.sp,
+                        style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -177,4 +171,3 @@ private fun LoginScreenContentPreview() {
     LoginScreenContent(
         uiState = AuthUiState(), onSignInWithGoogleClicked = {})
 }
-
