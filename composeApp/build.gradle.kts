@@ -37,7 +37,6 @@ kotlin {
             implementation(libs.google.identity)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play)
-            implementation(libs.maplibre.android.sdk)
             implementation(libs.fused.location)
             implementation(libs.kotlinx.coroutines.play.services)
 
