@@ -89,7 +89,6 @@ room-compiler   = { module = "androidx.room:room-compiler",   version.ref = "roo
 
 ##Map
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibre" }
-maplibre-android-sdk = { module = "org.maplibre.gl:android-sdk", version.ref = "maplibre" }
 fused-location = { module = "com.google.android.gms:play-services-location", version.ref = "fused-location"}
 
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }

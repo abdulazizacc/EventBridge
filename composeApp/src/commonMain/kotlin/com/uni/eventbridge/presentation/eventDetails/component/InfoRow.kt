@@ -31,7 +31,6 @@ fun EventInfoRows(
     timeRange: String,
     venueName: String,
     venueDetail: String,
-    onAddToSchedule: () -> Unit = {},
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         InfoRow(
@@ -42,8 +41,6 @@ fun EventInfoRows(
         InfoRow(
             iconRes = Res.drawable.ic_hour,
             primary = timeRange,
-            secondaryClickable = "Add to your schedule",
-            onSecondaryClick = onAddToSchedule,
         )
 
         InfoRow(

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
 import com.uni.eventbridge.presentation.common.component.theme.Primary
@@ -88,6 +87,7 @@ fun EventCard(
                 Text(
                     text = it,
                     color = White,
+                    style = MaterialTheme.typography.labelSmall,
                     modifier = modifier
                         .noRippleClickable { onClick() }
                         .background(color = Primary, shape = RoundedCornerShape(100))
@@ -97,8 +97,7 @@ fun EventCard(
 
             Text(
                 text = title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.titleMedium,
                 color = Color.Black,
             )
 
@@ -113,7 +112,7 @@ fun EventCard(
                 )
                 Text(
                     text = date,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     color = SlateGray,
                 )
             }
@@ -128,7 +127,7 @@ fun EventCard(
                 )
                 Text(
                     text = location,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     color = SlateGray,
                 )
             }

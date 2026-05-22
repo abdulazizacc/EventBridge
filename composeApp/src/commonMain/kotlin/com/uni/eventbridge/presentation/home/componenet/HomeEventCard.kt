@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -23,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.uni.eventbridge.presentation.common.component.PrimaryButton
 import com.uni.eventbridge.presentation.common.component.theme.Red
@@ -106,10 +105,8 @@ fun HomeEventCard(
                     ) {
                         Text(
                             text = it.uppercase(),
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF2979FF),
-                            letterSpacing = 0.8.sp
                         )
                     }
                 }
@@ -128,19 +125,15 @@ fun HomeEventCard(
                 ) {
                     Text(
                         text = date,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.labelMedium,
                         color = Red,
-                        letterSpacing = 0.5.sp,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
 
                     Text(
                         text = title,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.ExtraBold,
+                        style = MaterialTheme.typography.titleLarge,
                         color = SurfaceDark,
-                        lineHeight = 24.sp
                     )
 
                     Row(
@@ -155,7 +148,7 @@ fun HomeEventCard(
                         )
                         Text(
                             text = location,
-                            fontSize = 13.sp,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = SlateGray,
                         )
                     }

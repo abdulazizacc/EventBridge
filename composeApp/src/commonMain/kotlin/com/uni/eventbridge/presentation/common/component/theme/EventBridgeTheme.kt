@@ -28,6 +28,7 @@ private val EventBridgeLightColorScheme = lightColorScheme(
 fun EventBridgeTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = EventBridgeLightColorScheme,
+        typography = AppTypography(),
         content = content,
     )
 }

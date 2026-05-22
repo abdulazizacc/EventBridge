@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.uni.eventbridge.designSystem.topBar.DefaultTopBar
 import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.EventCard
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
+import com.uni.eventbridge.presentation.common.component.topBar.DefaultTopBar
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_add
 import org.jetbrains.compose.resources.painterResource
