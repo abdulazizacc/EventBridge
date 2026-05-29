@@ -4,16 +4,21 @@ import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
 import com.uni.eventbridge.domain.entity.User
 import com.uni.eventbridge.domain.model.CreateEventDraft
+import com.uni.eventbridge.domain.util.PagedResult
 
 interface EventRepository {
     suspend fun getCategory(): List<Category>
-    suspend fun getEventDetailsById(eventId:Long): Event
+    suspend fun getEventDetailsById(eventId: Long): Event
     suspend fun getEventByCategory(
         categoryId: Long?,
-    ): List<Event>
+        page: Int,
+        pageSize: Int
+    ): PagedResult<Event>
+
     suspend fun getEventBySearch(
         query: String,
     ): List<Event>
+
     suspend fun joinEvent(eventId: Long)
     suspend fun leaveEvent(eventId: Long)
 
@@ -22,7 +27,4 @@ interface EventRepository {
     suspend fun isUserJoined(eventId: Long): Boolean
     suspend fun searchEvent(query: String): List<Event>
     suspend fun getEventAttendance(eventId: Long): List<User>
-
 }
-
-

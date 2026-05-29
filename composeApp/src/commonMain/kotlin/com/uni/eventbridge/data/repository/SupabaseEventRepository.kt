@@ -13,6 +13,7 @@ import com.uni.eventbridge.domain.entity.Event
 import com.uni.eventbridge.domain.entity.User
 import com.uni.eventbridge.domain.model.CreateEventDraft
 import com.uni.eventbridge.domain.repository.EventRepository
+import com.uni.eventbridge.domain.util.PagedResult
 import io.github.aakira.napier.Napier
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
@@ -37,11 +38,26 @@ class SupabaseEventRepository : EventRepository {
             .first()
             .toDomain()
 
-    override suspend fun getEventByCategory(categoryId: Long?): List<Event> =
-        supabase.postgrest.rpc(
+    override suspend fun getEventByCategory(
+        categoryId: Long?,
+        page: Int,
+        pageSize: Int,
+    ): PagedResult<Event> {
+        val from = (page * pageSize).toLong()
+        val to = (from + pageSize - 1)
+
+        val items = supabase.postgrest.rpc(
             "get_events_by_category",
             buildMap { put("p_category_id", categoryId) }
-        ).decodeList<EventDto>().map { it.toDomain() }
+        ) {
+            range(from, to)
+        }.decodeList<EventDto>().map { it.toDomain() }
+        return PagedResult(
+            items = items,
+            currentPage = page,
+            pageSize = pageSize
+        )
+    }
 
     override suspend fun getEventBySearch(query: String): List<Event> =
         searchEvent(query)
