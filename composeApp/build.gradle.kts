@@ -69,7 +69,7 @@ kotlin {
             implementation(libs.maplibre.compose)
 
             implementation(libs.accompanist.permissions)
-
+            implementation(libs.androidx.paging.common)
 
             implementation("io.github.aakira:napier:2.7.1")
 
