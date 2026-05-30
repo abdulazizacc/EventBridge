@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.uni.eventbridge.presentation.common.component.PrimaryButton
 import com.uni.eventbridge.presentation.common.component.theme.Red
 import com.uni.eventbridge.presentation.common.component.theme.SlateGray
 import com.uni.eventbridge.presentation.common.component.theme.SurfaceDark
@@ -46,15 +45,9 @@ fun HomeEventCard(
     title: String,
     location: String,
     category: String? = null,
-    isJoined: Boolean = false,
-    isFull: Boolean = false,
-    isJoinInProgress: Boolean = false,
     onClick: () -> Unit = {},
-    onJoinClick: () -> Unit = {},
-    onLeaveClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    val joinEnabled = !isFull || isJoined
     val interactionSource = remember { MutableInteractionSource() }
 
     Card(
@@ -153,18 +146,6 @@ fun HomeEventCard(
                         )
                     }
                 }
-
-                PrimaryButton(
-                    onClick = {
-                        if (isJoined) onLeaveClick() else onJoinClick()
-                    },
-                    label = when {
-                        isJoinInProgress -> "…"
-                        isJoined -> "Joined ✓"
-                        else -> "Join Now →"
-                    },
-                    enabled = joinEnabled && !isJoinInProgress,
-                )
             }
         }
     }
@@ -180,6 +161,5 @@ fun Preview() {
         title = "Annual Spring Hackathon",
         location = "Student Union Hall, Main Campus",
         category = "Trending",
-        onJoinClick = { /* navigate */ }
     )
 }

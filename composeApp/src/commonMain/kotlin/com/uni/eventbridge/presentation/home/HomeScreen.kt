@@ -76,8 +76,6 @@ private fun HomeContent(
     uiState: HomeUiState,
     onCategorySelected: (Long?) -> Unit = {},
     onEventClicked: (Long) -> Unit = {},
-    onJoinClick: (Long) -> Unit = {},
-    onLeaveClick: (Long) -> Unit = {},
 ) {
     val categoryScrollState = rememberLazyListState()
     val events  = uiState.eventsFlow.collectAsLazyPagingItems()
@@ -120,15 +118,10 @@ private fun HomeContent(
                 title             = event.title,
                 location          = event.location,
                 category          = event.category.name.takeIf { it.isNotBlank() },
-                isJoined          = event.isRegistered,
-                isFull            = event.isFull,
-                isJoinInProgress  = event.isLoading,
                 modifier          = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                onClick           = { onEventClicked(event.id) },
-                onJoinClick       = { onJoinClick(event.id) },
-                onLeaveClick      = { onLeaveClick(event.id) },
+                onClick           = { onEventClicked(event.id) }
             )
         }
     }
