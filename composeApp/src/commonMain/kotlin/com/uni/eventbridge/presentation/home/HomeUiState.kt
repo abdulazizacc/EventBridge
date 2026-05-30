@@ -1,11 +1,15 @@
 package com.uni.eventbridge.presentation.home
 
+import app.cash.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+
 data class HomeUiState(
     val allCategories: List<CategoryUiState> = emptyList(),
     val selectedCategoryId: Long? = null,
-    val events: List<EventUiState> = emptyList(),
+    val eventsFlow: Flow<PagingData<EventUiState>> = flowOf(PagingData.empty()),
     val isLoading: Boolean = false,
-    ) {
+) {
     data class EventUiState(
         val id: Long = 0,
         val title: String = "",
@@ -13,10 +17,8 @@ data class HomeUiState(
         val bannerUrl: String = "",
         val location: String = "",
         val date: String = "",
-        val isActive: Boolean = true,
         val isLoading: Boolean = false,
         val category: CategoryUiState = CategoryUiState(),
-        val remainingSeats: Int? = null,
         val isFull: Boolean = false,
         val isRegistered: Boolean = false,
     )
