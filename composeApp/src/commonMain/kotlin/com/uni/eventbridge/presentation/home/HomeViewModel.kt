@@ -1,10 +1,15 @@
 package com.uni.eventbridge.presentation.home
 
+import androidx.lifecycle.viewModelScope
+import app.cash.paging.Pager
+import app.cash.paging.PagingData
+import app.cash.paging.cachedIn
+import app.cash.paging.map
 import com.uni.eventbridge.domain.repository.EventRepository
+import com.uni.eventbridge.presentation.common.BasePagingSource
 import com.uni.eventbridge.presentation.common.BaseViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class HomeViewModel(
     private val eventRepository: EventRepository
@@ -14,7 +19,7 @@ class HomeViewModel(
 
     init {
         loadCategories()
-        loadEvents()
+        fetchEventsByCategory(null)
     }
 
     private fun loadCategories() {
@@ -28,145 +33,31 @@ class HomeViewModel(
         )
     }
 
-    private fun loadEvents() {
-        val categoryId = currentState.selectedCategoryId
-
-        tryToExecute(
-            callee = {
-                eventRepository.getEventByCategory(categoryId)
-            },
-            onStart = {
-                updateState {
-                    it.copy(isLoading = true)
-                }
-            },
-            onSuccess = { events ->
-                val joinedMap = coroutineScope {
-                    events.map { event ->
-                        async { event.id to eventRepository.isUserJoined(event.id) }
-                    }.awaitAll().toMap()
-                }
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        events = events.map { e ->
-                            e.toUiState().copy(
-                                isRegistered = joinedMap[e.id] == true,
-                            )
-                        },
-                    )
-                }
-            },
-            onError = {
-                updateState { it.copy(isLoading = false) }
-            },
-        )
-    }
 
     fun onCategorySelected(categoryId: Long?) {
         if (categoryId == currentState.selectedCategoryId) return
         updateState { it.copy(selectedCategoryId = categoryId) }
-        loadEvents()
+        fetchEventsByCategory(categoryId)
+    }
+
+    private fun fetchEventsByCategory(categoryId: Long?) {
+        updateState { it.copy(eventsFlow = buildEventsFlow(categoryId)) }
     }
 
     fun onEventClicked(eventId: Long) {
         sendEffect(HomeUIEffect.NavigateToEventDetails(eventId))
     }
 
-    fun onJoinClick(eventId: Long) {
-        val event = currentState.events.find { it.id == eventId } ?: return
-        if (event.isFull && !event.isRegistered) {
-            sendEffect(HomeUIEffect.ShowErrorSnackbar("Sorry, this event is full"))
-            return
-        }
-        tryToExecute(
-            callee = { eventRepository.joinEvent(eventId) },
-            onStart = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id == eventId) e.copy(isLoading = true) else e
-                        },
-                    )
+    private fun buildEventsFlow(categoryId: Long?): Flow<PagingData<HomeUiState.EventUiState>> {
+        return Pager(
+            config = app.cash.paging.PagingConfig(pageSize = 20, prefetchDistance = 3),
+            pagingSourceFactory = {
+                BasePagingSource { page, pageSize ->
+                    eventRepository.getEventByCategory(categoryId, page, pageSize).items
                 }
-            },
-            onSuccess = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id != eventId) e
-                            else {
-                                val nextSeats = e.remainingSeats?.minus(1)
-                                e.copy(
-                                    isLoading = false,
-                                    isRegistered = true,
-                                    remainingSeats = nextSeats,
-                                    isFull = nextSeats != null && nextSeats <= 0,
-                                )
-                            }
-                        },
-                    )
-                }
-                sendEffect(HomeUIEffect.ShowJoinSuccessSnackbar)
-            },
-            onError = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id == eventId) e.copy(isLoading = false) else e
-                        },
-                    )
-                }
-                if (event.remainingSeats != null && event.remainingSeats <= 0) {
-                    sendEffect(HomeUIEffect.ShowErrorSnackbar("Sorry, this event is full"))
-                } else {
-                    sendEffect(HomeUIEffect.ShowErrorSnackbar("Could not join this event. Try again."))
-                }
-            },
-        )
-    }
-
-    fun onLeaveClick(eventId: Long) {
-        tryToExecute(
-            callee = { eventRepository.leaveEvent(eventId) },
-            onStart = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id == eventId) e.copy(isLoading = true) else e
-                        },
-                    )
-                }
-            },
-            onSuccess = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id != eventId) e
-                            else {
-                                val nextSeats = e.remainingSeats?.plus(1)
-                                e.copy(
-                                    isLoading = false,
-                                    isRegistered = false,
-                                    remainingSeats = nextSeats,
-                                    isFull = nextSeats != null && nextSeats <= 0,
-                                )
-                            }
-                        },
-                    )
-                }
-                sendEffect(HomeUIEffect.ShowLeaveSuccessSnackbar)
-            },
-            onError = {
-                updateState { s ->
-                    s.copy(
-                        events = s.events.map { e ->
-                            if (e.id == eventId) e.copy(isLoading = false) else e
-                        },
-                    )
-                }
-                sendEffect(HomeUIEffect.ShowErrorSnackbar("Failed to leave event. Please try again."))
-            },
-        )
+            }
+        ).flow
+            .map { pagingData -> pagingData.map { it.toUiState() } }
+            .cachedIn(viewModelScope)
     }
 }

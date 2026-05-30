@@ -3,7 +3,6 @@ package com.uni.eventbridge.presentation.home
 import com.uni.eventbridge.domain.entity.Category
 import com.uni.eventbridge.domain.entity.Event
 
-// data/mapper/UiStateMapper.kt
 fun Event.toUiState() = HomeUiState.EventUiState(
     id = id,
     title = name,
@@ -11,11 +10,9 @@ fun Event.toUiState() = HomeUiState.EventUiState(
     bannerUrl = bannerUrl,
     location = location,
     date = date,
-    isActive = isActive,
     category = category.toUiState(),
     remainingSeats = remainingSeats,
-    isFull = remainingSeats != null && remainingSeats <= 0,
-    isRegistered = false,
+
 )
 
 fun Category.toUiState() = HomeUiState.CategoryUiState(
