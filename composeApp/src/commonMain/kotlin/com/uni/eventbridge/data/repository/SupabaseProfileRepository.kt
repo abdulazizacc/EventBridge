@@ -38,4 +38,18 @@ class SupabaseProfileRepository : ProfileRepository {
     override suspend fun signOut() {
         supabase.auth.signOut()
     }
+
+    override suspend fun isAdmin(): Boolean {
+        return try {
+            val response = supabase.postgrest.rpc("is_admin")
+            val result = try {
+                response.decodeSingle<Boolean>()
+            } catch (e: Exception) {
+                response.decodeList<Boolean>().firstOrNull() ?: false
+            }
+            result
+        } catch (e: Exception) {
+            throw e
+        }
+    }
 }
