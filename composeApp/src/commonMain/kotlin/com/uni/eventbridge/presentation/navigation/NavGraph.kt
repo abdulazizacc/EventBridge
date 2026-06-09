@@ -24,40 +24,36 @@ import org.koin.compose.viewmodel.koinViewModel
 fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = koinViewModel()
 ) {
+
+    val authState by authViewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(authState.isAuthenticated, authState.isLoading) {
+        if (!authState.isLoading) {
+            val destination = if (authState.isAuthenticated) {
+                Route.Home.toNavString()
+            } else {
+                Route.Login.toNavString()
+            }
+
+            navController.navigate(destination) {
+                popUpTo(0)
+                launchSingleTop = true
+            }
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = Route.Splash.toNavString(),
         modifier = modifier,
     ) {
         composable(Route.Splash.toNavString()) {
-            val viewModel: AuthViewModel = koinViewModel()
-            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-            LaunchedEffect(uiState.isLoading, uiState.isAuthenticated) {
-                if (!uiState.isLoading) {
-                    val destination = if (uiState.isAuthenticated) {
-                        Route.Home.toNavString()
-                    } else {
-                        Route.Login.toNavString()
-                    }
-                    navController.navigate(destination) {
-                        popUpTo(Route.Splash.toNavString()) { inclusive = true }
-                    }
-                }
-            }
-
             SplashScreen()
         }
+
         composable(Route.Login.toNavString()) {
-            LoginScreen(
-                onNavigateToHome = {
-                    navController.navigate(Route.Home.toNavString()) {
-                        popUpTo(Route.Login.toNavString()) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                }
-            )
+            LoginScreen()
         }
 
         composable(Route.Home.toNavString()) {
@@ -104,7 +100,9 @@ fun NavGraph(
         composable(Route.Account.toNavString()) {
             ProfileScreen(
                 onNavigateToSignIn = {
-                    navController.navigate(Route.Login.toNavString())
+                    navController.navigate(Route.Login.toNavString()) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 },
             )
         }
