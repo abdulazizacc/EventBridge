@@ -45,11 +45,16 @@ class SupabaseProfileRepository : ProfileRepository {
             val result = try {
                 response.decodeSingle<Boolean>()
             } catch (e: Exception) {
-                response.decodeList<Boolean>().firstOrNull() ?: false
+                try {
+                    response.decodeList<Boolean>().firstOrNull() ?: false
+                } catch (e2: Exception) {
+                    val body = response.data
+                    body.contains("true", ignoreCase = true)
+                }
             }
             result
         } catch (e: Exception) {
-            throw e
+            false
         }
     }
 }

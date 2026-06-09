@@ -1,7 +1,9 @@
 package com.uni.eventbridge.presentation.profile
 
 import com.uni.eventbridge.domain.repository.ProfileRepository
+import com.uni.eventbridge.presentation.auth.AuthViewModel
 import com.uni.eventbridge.presentation.common.BaseViewModel
+import io.github.aakira.napier.Napier
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
@@ -20,12 +22,14 @@ class ProfileViewModel(
             onSuccess = { user ->
                 updateState {
                     it.copy(
-                        isLoading = false,
                         fullName = user.fullName,
                         avatarUrl = user.avatarUrl,
                     )
                 }
             },
+            onFinally = {
+                updateState { it.copy(isLoading = false) }
+            }
         )
     }
 
