@@ -1,7 +1,6 @@
 package com.uni.eventbridge.data.repository
 
 import com.uni.eventbridge.data.mapper.toDomain
-import com.uni.eventbridge.data.mapper.toDto
 import com.uni.eventbridge.data.remote.dto.CategoryDto
 import com.uni.eventbridge.data.remote.dto.EventDto
 import com.uni.eventbridge.data.remote.dto.MembershipInsert
@@ -14,11 +13,12 @@ import com.uni.eventbridge.domain.entity.User
 import com.uni.eventbridge.domain.model.CreateEventDraft
 import com.uni.eventbridge.domain.repository.EventRepository
 import com.uni.eventbridge.domain.util.PagedResult
-import io.github.aakira.napier.Napier
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.storage.storage
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.time.Clock
 
 class SupabaseEventRepository : EventRepository {
@@ -72,13 +72,11 @@ class SupabaseEventRepository : EventRepository {
 
     override suspend fun joinEvent(eventId: Long) {
         val userId = supabase.auth.currentUserOrNull()?.id ?: return
-        Napier.d(tag = "joinEvent", message = "Attempting join: eventId=$eventId userId=$userId")
-
         try {
             supabase.postgrest["memberships"]
                 .insert(MembershipInsert(eventId, userId))
         } catch (e: Exception) {
-            Napier.e(tag = "joinEvent", message = "Insert failed: ${e.message}")
+            throw e
         }
     }
 
@@ -128,18 +126,32 @@ class SupabaseEventRepository : EventRepository {
             supabase.storage["event-banners"].upload(path, bytes)
             supabase.storage["event-banners"].publicUrl(path)
         } ?: ""
+        try {
+            val params = buildJsonObject {
+                put("p_name", request.title)
+                put("p_description", request.description)
+                put("p_banner_url", bannerUrl)
+                put("p_location", request.location)
+                put("p_date", request.date)
+                put("p_time", request.startTime)
+                put("p_category_id", request.categoryId)
+                put("p_end_time", request.endTime)
+                put("p_department", request.department)
+                if (request.pinLatitude != null) put("p_pin_latitude", request.pinLatitude)
+                if (request.pinLongitude != null) put("p_pin_longitude", request.pinLongitude)
+            }
+            supabase.postgrest.rpc("create_event", params)
 
-        val dto = request.toDto(bannerUrl)
-        supabase.postgrest["events"].insert(dto)
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override suspend fun getEventAttendance(eventId: Long): List<User> {
-        val x = supabase.postgrest.rpc(
+        return supabase.postgrest.rpc(
             "get_event_attendees",
             mapOf("p_event_id" to eventId)
         ).decodeList<ProfileDto>().map { it.toDomain() }
-        Napier.d(tag = "getEventAttendees", message = "Raw result from Supabase:  ${x}")
 
-        return x
     }
 }
