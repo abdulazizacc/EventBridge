@@ -6,4 +6,5 @@ interface ProfileRepository {
     suspend fun getCurrentProfile(): User
     suspend fun updateProfile(fullName: String, avatarUrl: String?): User
     suspend fun signOut()
+    suspend fun isAdmin(): Boolean
 }

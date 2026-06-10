@@ -1,4 +1,3 @@
-// presentation/auth/LoginScreen.kt
 package com.uni.eventbridge.presentation.auth
 
 import androidx.compose.foundation.background
@@ -42,20 +41,13 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
-    onNavigateToHome: () -> Unit, viewModel: AuthViewModel = koinViewModel()
+    viewModel: AuthViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-
-
-    LaunchedEffect(uiState.isAuthenticated) {
-        if (uiState.isAuthenticated) {
-            onNavigateToHome()
-        }
-    }
-
     LoginScreenContent(
-        uiState = uiState, onSignInWithGoogleClicked = viewModel::signInWithGoogle
+        uiState = uiState,
+        onSignInWithGoogleClicked = viewModel::signInWithGoogle
     )
 }
 

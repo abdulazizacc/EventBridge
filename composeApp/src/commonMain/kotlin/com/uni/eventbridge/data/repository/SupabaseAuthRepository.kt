@@ -10,9 +10,9 @@ import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SupabaseAuthRepository (
+class SupabaseAuthRepository(
     private val googleSignInHelper: GoogleSignInHelper
-): AuthRepository {
+) : AuthRepository {
 
     override suspend fun signInWithGoogle() {
         val idToken = googleSignInHelper.getGoogleIdToken()

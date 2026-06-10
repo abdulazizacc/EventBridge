@@ -18,13 +18,16 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.uni.eventbridge.presentation.auth.AuthViewModel
 import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
@@ -34,21 +37,37 @@ import com.uni.eventbridge.presentation.navigation.BottomNavigationRoute
 import com.uni.eventbridge.presentation.navigation.toNavString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-
 fun BottomNavigation(
     navController: NavController,
     modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = koinViewModel()
 ) {
+    val authState by authViewModel.uiState.collectAsStateWithLifecycle()
+    val isAdmin = authState.isAdmin
+
     val currentRoute = navController.currentBackStackEntryAsState()
         .value?.destination?.route
         ?.substringBefore("?")
 
-    val bottomNavRoutes = BOTTOM_NAV_ITEMS.map { it.route.toNavString() }.toSet()
-    val isVisible = currentRoute in bottomNavRoutes
 
+    val navItems = listOf(
+        BottomNavigationRoute.Home,
+        BottomNavigationRoute.Explore,
+        BottomNavigationRoute.Events,
+        BottomNavigationRoute.Account
+    ).filter {
+        it != BottomNavigationRoute.Events || isAdmin
+    }
+
+    val isVisible = currentRoute in listOf(
+        BottomNavigationRoute.Home.route.toNavString(),
+        BottomNavigationRoute.Explore.route.toNavString(),
+        BottomNavigationRoute.Events.route.toNavString(),
+        BottomNavigationRoute.Account.route.toNavString()
+    )
     AnimatedVisibility(
         visible = isVisible,
         enter = slideInVertically(
@@ -60,22 +79,20 @@ fun BottomNavigation(
             animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
         )
     ) {
+
         Column(modifier.fillMaxWidth().navigationBarsPadding()) {
-            HorizontalDivider(
-                color = Secondary,
-                thickness = 1.dp,
-            )
+            HorizontalDivider(thickness = 1.dp, color = Secondary)
             Row(
                 modifier = modifier
                     .fillMaxWidth()
                     .background(White)
-                    .padding(start = 32.dp, end = 32.dp)
-                    .padding(vertical = 16.dp),
+                    .padding(horizontal = 32.dp, vertical = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BOTTOM_NAV_ITEMS.forEach { item ->
+                navItems.forEach { item ->
                     val isSelected = currentRoute == item.route.toNavString()
+
                     NavItem(
                         isSelected = isSelected,
                         iconRes = item.iconRes,
@@ -84,9 +101,7 @@ fun BottomNavigation(
                             if (!isSelected) {
                                 navController.navigate(item.route.toNavString()) {
                                     navController.graph.startDestinationRoute?.let {
-                                        popUpTo(it) {
-                                            saveState = true
-                                        }
+                                        popUpTo(it) { saveState = true }
                                     }
                                     launchSingleTop = true
                                     restoreState = true
@@ -94,7 +109,6 @@ fun BottomNavigation(
                             }
                         }
                     )
-
                 }
             }
         }
@@ -136,11 +150,3 @@ fun NavItem(
 
     }
 }
-
-
-private val BOTTOM_NAV_ITEMS = listOf(
-    BottomNavigationRoute.Home,
-    BottomNavigationRoute.Explore,
-    BottomNavigationRoute.Events,
-    BottomNavigationRoute.Account
-)
