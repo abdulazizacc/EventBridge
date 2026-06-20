@@ -75,7 +75,7 @@ EventBridge follows **Clean Architecture** with an **MVVM** presentation layer. 
 
 ### Design Patterns
 
-- **Repository pattern** — `EventRepository`, `AuthRepository`, `ProfileRepository`, `SearchRepository`, and `LocationRepository` abstract data sources from the UI.
+- **Repository pattern** — `EventRepository`, `AccountRepository`, `SearchRepository`, and `LocationRepository` abstract data sources from the UI.
 - **MVVM** — Each screen has a `ViewModel` extending `BaseViewModel<STATE, EFFECT>` with unidirectional state updates and side effects.
 - **Dependency injection** — Koin modules (`dataModule`, `ViewModelModule`, `platformModule`) wire implementations at startup.
 - **Mapper pattern** — DTOs (`EventDto`, `ProfileDto`) map to domain entities in `data.mapper`.
@@ -97,8 +97,7 @@ EventBridge follows **Clean Architecture** with an **MVVM** presentation layer. 
 | Component | Role |
 |-----------|------|
 | `SupabaseEventRepository` | Events, categories, search RPCs, memberships, banner upload |
-| `SupabaseAuthRepository` | Google ID token sign-in, session observation |
-| `SupabaseProfileRepository` | CRUD on `profiles` |
+| `SupabaseAccountRepository` | Auth (Google sign-in) and User Profile management |
 | `SearchRepositoryImpl` | Combines remote search + Room history |
 | `LocationRepositoryImpl` | GPS via `PlatformLocationProvider`, routes via ORS |
 | `SearchHistoryLocalDataSource` | Room DAO for recent queries |

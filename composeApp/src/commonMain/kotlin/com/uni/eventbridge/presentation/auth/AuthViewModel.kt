@@ -1,12 +1,10 @@
 package com.uni.eventbridge.presentation.auth
 
-import com.uni.eventbridge.domain.repository.AuthRepository
-import com.uni.eventbridge.domain.repository.ProfileRepository
+import com.uni.eventbridge.domain.repository.AccountRepository
 import com.uni.eventbridge.presentation.common.BaseViewModel
 
 class AuthViewModel(
-    private val authRepository: AuthRepository,
-    private val profileRepository: ProfileRepository,
+    private val accountRepository: AccountRepository,
 ) : BaseViewModel<AuthUiState, AuthEffect>(AuthUiState()) {
 
     init {
@@ -15,7 +13,7 @@ class AuthViewModel(
 
     private fun observeSession() {
         tryToCollect(
-            flowProvider = { authRepository.observeAuthState() },
+            flowProvider = { accountRepository.observeAuthState() },
             onNewValue = { isAuthenticated ->
                 if (isAuthenticated) {
                     updateState { it.copy(isAuthenticated = true, isLoading = false) }
@@ -38,7 +36,7 @@ class AuthViewModel(
 
     private fun checkAdminStatus() {
         tryToExecute(
-            callee = { profileRepository.isAdmin() },
+            callee = { accountRepository.isAdmin() },
             onSuccess = { isAdmin ->
                 updateState { it.copy(isAdmin = isAdmin) }
             },
@@ -50,7 +48,7 @@ class AuthViewModel(
 
     fun signInWithGoogle() {
         tryToExecute(
-            callee = { authRepository.signInWithGoogle() },
+            callee = { accountRepository.signInWithGoogle() },
             onStart = { updateState { it.copy(isLoading = true, error = null) } },
             onSuccess = {},
             onError = { e ->

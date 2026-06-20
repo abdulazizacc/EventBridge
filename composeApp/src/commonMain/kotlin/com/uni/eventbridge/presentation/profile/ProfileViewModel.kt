@@ -1,12 +1,10 @@
 package com.uni.eventbridge.presentation.profile
 
-import com.uni.eventbridge.domain.repository.ProfileRepository
-import com.uni.eventbridge.presentation.auth.AuthViewModel
+import com.uni.eventbridge.domain.repository.AccountRepository
 import com.uni.eventbridge.presentation.common.BaseViewModel
-import io.github.aakira.napier.Napier
 
 class ProfileViewModel(
-    private val profileRepository: ProfileRepository,
+    private val accountRepository: AccountRepository,
 ) : BaseViewModel<ProfileUiState, ProfileUIEffect>(
     initialState = ProfileUiState()
 ) {
@@ -17,7 +15,7 @@ class ProfileViewModel(
 
     private fun loadProfile() {
         tryToExecute(
-            callee = { profileRepository.getCurrentProfile() },
+            callee = { accountRepository.getCurrentProfile() },
             onStart = { updateState { it.copy(isLoading = true) } },
             onSuccess = { user ->
                 updateState {
@@ -48,7 +46,7 @@ class ProfileViewModel(
 
     fun onSignOutConfirmed() {
         tryToExecute(
-            callee = { profileRepository.signOut() },
+            callee = { accountRepository.signOut() },
             onStart = { updateState { it.copy(isLoading = true, showSignOutDialog = false) } },
             onSuccess = {
                 updateState { it.copy(isLoading = false) }

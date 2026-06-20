@@ -1,14 +1,44 @@
 package com.uni.eventbridge.data.repository
 
+import com.uni.eventbridge.data.remote.GoogleSignInHelper
 import com.uni.eventbridge.data.remote.dto.ProfileDto
 import com.uni.eventbridge.data.remote.dto.toDomain
 import com.uni.eventbridge.data.remote.supabase
 import com.uni.eventbridge.domain.entity.User
-import com.uni.eventbridge.domain.repository.ProfileRepository
+import com.uni.eventbridge.domain.repository.AccountRepository
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.providers.Google
+import io.github.jan.supabase.auth.providers.builtin.IDToken
+import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class SupabaseProfileRepository : ProfileRepository {
+class SupabaseAccountRepository(
+    private val googleSignInHelper: GoogleSignInHelper
+) : AccountRepository {
+
+    override suspend fun signInWithGoogle() {
+        val idToken = googleSignInHelper.getGoogleIdToken()
+
+        supabase.auth.signInWith(IDToken) {
+            this.idToken = idToken
+            this.provider = Google
+        }
+    }
+
+    override fun observeAuthState(): Flow<Boolean> =
+        supabase.auth.sessionStatus.map { status ->
+            status is SessionStatus.Authenticated
+        }
+
+    override suspend fun signOut() {
+        supabase.auth.signOut()
+    }
+
+    override suspend fun isAuthenticated(): Boolean {
+        return supabase.auth.currentUserOrNull() != null
+    }
 
     override suspend fun getCurrentProfile(): User {
         val userId = supabase.auth.currentUserOrNull()?.id
@@ -33,10 +63,6 @@ class SupabaseProfileRepository : ProfileRepository {
             ) { filter { eq("id", userId) } }
             .decodeSingle<ProfileDto>()
             .toDomain()
-    }
-
-    override suspend fun signOut() {
-        supabase.auth.signOut()
     }
 
     override suspend fun isAdmin(): Boolean {
