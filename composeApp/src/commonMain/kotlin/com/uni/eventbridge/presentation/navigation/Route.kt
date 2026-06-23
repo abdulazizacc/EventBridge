@@ -22,6 +22,11 @@ sealed interface Route {
     data object Splash : Route
     @Serializable
     data class NavigationMap(val lat: Double, val lon: Double) : Route
+
+    @Serializable
+    data object AuthGraph : Route
+    @Serializable
+    data object MainGraph : Route
 }
 fun Route.toNavString(): String = when (this) {
     Route.Splash -> "splash"
@@ -33,4 +38,6 @@ fun Route.toNavString(): String = when (this) {
     is Route.EventDetails -> "event_details/${eventId}"
     Route.CreateEvent -> "create_event"
     is Route.NavigationMap -> "navigation_map/$lat/$lon"
+    Route.AuthGraph -> "auth_graph"
+    Route.MainGraph -> "main_graph"
 }

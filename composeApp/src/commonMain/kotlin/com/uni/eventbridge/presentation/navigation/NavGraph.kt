@@ -8,6 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import com.uni.eventbridge.presentation.auth.AuthViewModel
 import com.uni.eventbridge.presentation.auth.LoginScreen
 import com.uni.eventbridge.presentation.createEvent.CreateEventScreen
@@ -45,87 +46,97 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Route.Splash.toNavString(),
+        startDestination = Route.AuthGraph.toNavString(),
         modifier = modifier,
     ) {
-        composable(Route.Splash.toNavString()) {
-            SplashScreen()
+        navigation(
+            startDestination = Route.Splash.toNavString(),
+            route = Route.AuthGraph.toNavString()
+        ) {
+            composable(Route.Splash.toNavString()) {
+                SplashScreen()
+            }
+
+            composable(Route.Login.toNavString()) {
+                LoginScreen()
+            }
         }
 
-        composable(Route.Login.toNavString()) {
-            LoginScreen()
-        }
+        navigation(
+            startDestination = Route.Home.toNavString(),
+            route = Route.MainGraph.toNavString()
+        ) {
+            composable(Route.Home.toNavString()) {
+                HomeScreen(
+                    onNavigateToEventDetail = { eventId ->
+                        navController.navigateToEventDetails(eventId)
+                    }
+                )
+            }
 
-        composable(Route.Home.toNavString()) {
-            HomeScreen(
-                onNavigateToEventDetail = { eventId ->
-                    navController.navigateToEventDetails(eventId)
-                }
-            )
-        }
+            composable(Route.Explore.toNavString()) {
+                SearchScreen(
+                    onNavigateToEventDetail = { eventId ->
+                        navController.navigateToEventDetails(eventId)
+                    }
+                )
+            }
 
-        composable(Route.Explore.toNavString()) {
-            SearchScreen(
-                onNavigateToEventDetail = { eventId ->
-                    navController.navigateToEventDetails(eventId)
-                }
-            )
-        }
+            composable(Route.Events.toNavString()) {
+                EventsScreen(
+                    onNavigateToEventDetail = { eventId ->
+                        navController.navigateToEventDetails(eventId)
+                    },
+                    onCreateEventClicked = {
+                        navController.navigate(Route.CreateEvent.toNavString())
+                    }
+                )
+            }
 
-        composable(Route.Events.toNavString()) {
-            EventsScreen(
-                onNavigateToEventDetail = { eventId ->
-                    navController.navigateToEventDetails(eventId)
-                },
-                onCreateEventClicked = {
-                    navController.navigate(Route.CreateEvent.toNavString())
-                }
-            )
-        }
-
-        composable (Route.CreateEvent.toNavString()){
-            CreateEventScreen(
-                onNavigateBack = { navController.navigateUp() },
-                onEventPublished = {
-                    navController.navigate(Route.Events.toNavString()) {
-                        popUpTo(Route.Home.toNavString()) {
-                            inclusive = false
+            composable(Route.CreateEvent.toNavString()) {
+                CreateEventScreen(
+                    onNavigateBack = { navController.navigateUp() },
+                    onEventPublished = {
+                        navController.navigate(Route.Events.toNavString()) {
+                            popUpTo(Route.Home.toNavString()) {
+                                inclusive = false
+                            }
+                            launchSingleTop = true
                         }
-                        launchSingleTop = true
                     }
-                }
-            )
-        }
+                )
+            }
 
-        composable(Route.Account.toNavString()) {
-            ProfileScreen(
-                onNavigateToSignIn = {
-                    navController.navigate(Route.Login.toNavString()) {
-                        popUpTo(0) { inclusive = true }
+            composable(Route.Account.toNavString()) {
+                ProfileScreen(
+                    onNavigateToSignIn = {
+                        navController.navigate(Route.AuthGraph.toNavString()) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                )
+            }
+
+            composable("navigation_map/{lat}/{lon}") { backStackEntry ->
+                val lat = backStackEntry.arguments?.getString("lat")?.toDouble() ?: return@composable
+                val lon = backStackEntry.arguments?.getString("lon")?.toDouble() ?: return@composable
+                MapNavigationScreen(
+                    eventLat = lat,
+                    eventLon = lon,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable("event_details/{eventId}") { backStackEntry ->
+                val eventId = backStackEntry.arguments?.getString("eventId") ?: return@composable
+                EventDetailsScreen(
+                    eventId = eventId.toLong(),
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToMap = { lat, lon ->
+                        navController.navigate("navigation_map/$lat/$lon")
                     }
-                },
-            )
-        }
-
-        composable("navigation_map/{lat}/{lon}") { backStackEntry ->
-            val lat = backStackEntry.arguments?.getString("lat")?.toDouble() ?: return@composable
-            val lon = backStackEntry.arguments?.getString("lon")?.toDouble() ?: return@composable
-            MapNavigationScreen(
-                eventLat = lat,
-                eventLon = lon,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        composable("event_details/{eventId}") { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getString("eventId") ?: return@composable
-            EventDetailsScreen(
-                eventId = eventId.toLong(),
-                onNavigateBack = { navController.popBackStack() },
-                onNavigateToMap = { lat, lon ->
-                    navController.navigate("navigation_map/$lat/$lon")
-                }
-            )
+                )
+            }
         }
     }
 }

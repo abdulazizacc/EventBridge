@@ -140,7 +140,7 @@ class SupabaseEventRepository : EventRepository {
                 if (request.pinLatitude != null) put("p_pin_latitude", request.pinLatitude)
                 if (request.pinLongitude != null) put("p_pin_longitude", request.pinLongitude)
             }
-            supabase.postgrest.rpc("create_event", params)
+            supabase.postgrest.rpc("submit_event", params)
 
         } catch (e: Exception) {
             throw e
