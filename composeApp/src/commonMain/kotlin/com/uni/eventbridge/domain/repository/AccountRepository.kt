@@ -10,5 +10,4 @@ interface AccountRepository {
     fun observeAuthState(): Flow<Boolean>
     suspend fun getCurrentProfile(): User
     suspend fun updateProfile(fullName: String, avatarUrl: String?): User
-    suspend fun isAdmin(): Boolean
 }
