@@ -17,12 +17,10 @@ class AuthViewModel(
             onNewValue = { isAuthenticated ->
                 if (isAuthenticated) {
                     updateState { it.copy(isAuthenticated = true, isLoading = false) }
-                    checkAdminStatus()
                 } else {
                     updateState {
                         it.copy(
                             isAuthenticated = false,
-                            isAdmin = false,
                             isLoading = false
                         )
                     }
@@ -30,18 +28,6 @@ class AuthViewModel(
             },
             onError = { e ->
                 updateState { it.copy(isLoading = false, error = e.message) }
-            }
-        )
-    }
-
-    private fun checkAdminStatus() {
-        tryToExecute(
-            callee = { accountRepository.isAdmin() },
-            onSuccess = { isAdmin ->
-                updateState { it.copy(isAdmin = isAdmin) }
-            },
-            onError = {
-                updateState { it.copy(isAdmin = false) }
             }
         )
     }

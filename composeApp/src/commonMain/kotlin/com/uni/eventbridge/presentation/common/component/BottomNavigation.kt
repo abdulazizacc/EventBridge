@@ -18,16 +18,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.uni.eventbridge.presentation.auth.AuthViewModel
 import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
@@ -37,17 +34,12 @@ import com.uni.eventbridge.presentation.navigation.BottomNavigationRoute
 import com.uni.eventbridge.presentation.navigation.toNavString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun BottomNavigation(
     navController: NavController,
     modifier: Modifier = Modifier,
-    authViewModel: AuthViewModel = koinViewModel()
 ) {
-    val authState by authViewModel.uiState.collectAsStateWithLifecycle()
-    val isAdmin = authState.isAdmin
-
     val currentRoute = navController.currentBackStackEntryAsState()
         .value?.destination?.route
         ?.substringBefore("?")
@@ -58,9 +50,7 @@ fun BottomNavigation(
         BottomNavigationRoute.Explore,
         BottomNavigationRoute.Events,
         BottomNavigationRoute.Account
-    ).filter {
-        it != BottomNavigationRoute.Events || isAdmin
-    }
+    )
 
     val isVisible = currentRoute in listOf(
         BottomNavigationRoute.Home.route.toNavString(),
