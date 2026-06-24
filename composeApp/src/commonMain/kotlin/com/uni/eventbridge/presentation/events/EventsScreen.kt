@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.EventCard
+import com.uni.eventbridge.presentation.common.component.EventCardShimmer
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
@@ -36,7 +37,7 @@ fun EventsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(  Unit) {
+    LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is EventsUIEffect.NavigateToEventDetails -> onNavigateToEventDetail(effect.eventId)
@@ -59,6 +60,26 @@ private fun EventsContent(
     onCreateEventClicked: () -> Unit = {},
 ) {
     EventBridgeScaffold(
+        isLoading = uiState.isLoading,
+        loadingContent = {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = White),
+                contentPadding = PaddingValues(horizontal = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item {
+                    HorizontalDivider(
+                        color = Secondary,
+                        thickness = 1.dp
+                    )
+                }
+                items(5) {
+                    EventCardShimmer()
+                }
+            }
+        },
         topBar = { DefaultTopBar(title = "My Events") },
         floatingActionButton = {
             FloatingActionButton(
@@ -81,7 +102,7 @@ private fun EventsContent(
             contentPadding = PaddingValues(horizontal = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item{
+            item {
                 HorizontalDivider(
                     color = Secondary,
                     thickness = 1.dp
@@ -118,7 +139,7 @@ private fun EventsContentPreview() {
                     imageUrl = "",
                     state = "Upcoming"
 
-                    ),
+                ),
                 EventsUiState.EventUiState(
                     id = 2,
                     title = "AI & Ethics Workshop",
