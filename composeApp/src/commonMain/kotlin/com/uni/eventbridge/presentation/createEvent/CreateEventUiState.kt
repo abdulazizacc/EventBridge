@@ -50,9 +50,9 @@ data class CreateEventUiState(
     }
 
     val currentStepIndex: Int get() = Step.entries.indexOf(currentStep)
-    val totalSteps: Int get() = Step.entries.size - 1 // REVIEW is not counted as a form step
+    val totalSteps: Int get() = Step.entries.size
     val progressFraction: Float get() = (currentStepIndex + 1) / totalSteps.toFloat()
-    val isLastStep: Boolean get() = currentStep == Step.DATE_AND_LOCATION
+    val isLastStep: Boolean get() = currentStep == Step.REVIEW
     val isFirstStep: Boolean get() = currentStep == Step.BASIC_INFO
     val canPublish: Boolean
         get() = basicInfo.isComplete && dateAndLocation.isComplete

@@ -96,8 +96,8 @@ fun BasicInfoStep(
         ) {
             item {
                 StepProgressHeader(
-                    stepLabel = "Basic Info",
-                    stepSublabel = "${currentStepIndex + 1} of $totalSteps",
+                    stepLabel = "STEP ${currentStepIndex + 1} OF $totalSteps",
+                    stepSublabel = "Basic Info",
                     progressFraction = (currentStepIndex + 1) / totalSteps.toFloat(),
                 )
 
