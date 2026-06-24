@@ -7,10 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.uni.eventbridge.presentation.common.component.modifier.noRippleClickable
+import com.uni.eventbridge.presentation.common.component.modifier.shimmerEffect
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.SlateGray
@@ -130,6 +134,69 @@ fun EventCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = SlateGray,
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun EventCardShimmer(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = White, shape = RoundedCornerShape(12.dp))
+            .border(width = 1.dp, color = Secondary, shape = RoundedCornerShape(12.dp)),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(90.dp)
+                .padding(top = 13.dp, bottom = 13.dp, start = 13.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .shimmerEffect(),
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 13.dp)
+                .align(Alignment.Top)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(60.dp)
+                    .height(18.dp)
+                    .clip(RoundedCornerShape(100))
+                    .shimmerEffect()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(20.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .shimmerEffect()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            repeat(2) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(12.dp)
+                            .clip(RoundedCornerShape(2.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Box(
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(12.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
             }
         }
     }

@@ -2,7 +2,6 @@ package com.uni.eventbridge.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,12 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemKey
+import com.uni.eventbridge.presentation.common.component.EventBridgeScaffold
 import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.common.component.topBar.BadgeTopBar
 import com.uni.eventbridge.presentation.home.componenet.CategorySection
 import com.uni.eventbridge.presentation.home.componenet.HomeEventCard
+import com.uni.eventbridge.presentation.home.componenet.HomeEventCardShimmer
+import com.uni.eventbridge.presentation.home.componenet.HomeShimmer
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_hat
 import org.jetbrains.compose.resources.painterResource
@@ -56,7 +59,10 @@ fun HomeScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    EventBridgeScaffold(
+        isLoading = uiState.isLoading,
+        loadingContent = { HomeShimmer() },
+    ) {
         HomeContent(
             uiState = uiState,
             onCategorySelected = viewModel::onCategorySelected,
@@ -104,6 +110,16 @@ private fun HomeContent(
                 listState = categoryScrollState,
                 modifier = Modifier.padding(top = 14.dp),
             )
+        }
+
+        if (events.loadState.refresh is LoadState.Loading) {
+            items(6) {
+                HomeEventCardShimmer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
         }
 
         items(

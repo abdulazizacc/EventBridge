@@ -12,13 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.uni.eventbridge.presentation.common.component.PrimaryButton
+import com.uni.eventbridge.presentation.common.component.theme.LightGreen
+import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
 
 @Composable
 fun JoinBottomBar(
     isJoined: Boolean,
-    isFull: Boolean,
     onJoinClick: () -> Unit,
     onLeaveClick: () -> Unit,
 ) {
@@ -33,8 +34,8 @@ fun JoinBottomBar(
             PrimaryButton(
                 onClick = if (isJoined) onLeaveClick else onJoinClick,
                 label = if (isJoined) "Joined ✓" else "Join Now →",
+                backgroundColor = if (isJoined) LightGreen else Primary,
                 modifier = Modifier.align(Alignment.Center),
-                enabled = !isFull || isJoined,
             )
 
         }

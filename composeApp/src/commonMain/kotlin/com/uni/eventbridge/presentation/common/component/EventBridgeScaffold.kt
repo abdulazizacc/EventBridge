@@ -25,6 +25,7 @@ fun EventBridgeScaffold(
     topBar: (@Composable () -> Unit)? = null,
     bottomBar: (@Composable () -> Unit)? = null,
     floatingActionButton: (@Composable () -> Unit)? = null,
+    loadingContent: (@Composable () -> Unit)? = null,
     content: @Composable (BoxScope.() -> Unit),
 ) {
     Box(
@@ -44,14 +45,18 @@ fun EventBridgeScaffold(
             ) {
                 Crossfade(targetState = isLoading) { loading ->
                     if (loading) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            CircularProgressIndicator(
-                                color = Primary,
-                                modifier = Modifier.size(40.dp)
-                            )
+                        if (loadingContent != null) {
+                            loadingContent()
+                        } else {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator(
+                                    color = Primary,
+                                    modifier = Modifier.size(40.dp)
+                                )
+                            }
                         }
                     } else {
                         content()

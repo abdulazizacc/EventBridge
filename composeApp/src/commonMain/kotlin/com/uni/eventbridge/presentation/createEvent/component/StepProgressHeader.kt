@@ -47,6 +47,8 @@ fun StepProgressHeader(
                 .clip(RoundedCornerShape(2.dp)),
             color = Primary,
             trackColor = Color(0xFFE0E0E0),
+            gapSize = 0.dp,
+            drawStopIndicator = {}
         )
     }
 }

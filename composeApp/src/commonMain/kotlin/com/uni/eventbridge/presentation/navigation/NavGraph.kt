@@ -6,9 +6,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.uni.eventbridge.presentation.auth.AuthViewModel
 import com.uni.eventbridge.presentation.auth.LoginScreen
 import com.uni.eventbridge.presentation.createEvent.CreateEventScreen
@@ -29,17 +31,30 @@ fun NavGraph(
 ) {
 
     val authState by authViewModel.uiState.collectAsStateWithLifecycle()
+
     LaunchedEffect(authState.isAuthenticated, authState.isLoading) {
         if (!authState.isLoading) {
-            val destination = if (authState.isAuthenticated) {
-                Route.Home.toNavString()
-            } else {
-                Route.Login.toNavString()
-            }
+            val currentRoute = navController.currentDestination?.route
+            val isAtSplash = currentRoute == Route.Splash.toNavString()
+            val isAtLogin = currentRoute == Route.Login.toNavString()
+            val isAtAuthGraph = isAtSplash || isAtLogin || currentRoute == Route.AuthGraph.toNavString()
 
-            navController.navigate(destination) {
-                popUpTo(0)
-                launchSingleTop = true
+            if (authState.isAuthenticated) {
+                if (isAtAuthGraph) {
+                    navController.navigate(Route.MainGraph.toNavString()) {
+                        popUpTo(Route.AuthGraph.toNavString()) { inclusive = true }
+                    }
+                }
+            } else {
+                if (isAtSplash) {
+                    navController.navigate(Route.Login.toNavString()) {
+                        popUpTo(Route.Splash.toNavString()) { inclusive = true }
+                    }
+                } else if (!isAtLogin) {
+                    navController.navigate(Route.AuthGraph.toNavString()) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             }
         }
     }
@@ -127,10 +142,16 @@ fun NavGraph(
                 )
             }
 
-            composable("event_details/{eventId}") { backStackEntry ->
-                val eventId = backStackEntry.arguments?.getString("eventId") ?: return@composable
+            composable(
+                route = "event_details/{eventId}",
+                arguments = listOf(
+                    navArgument("eventId") {
+                        type = NavType.LongType
+                    }
+                )) { backStackEntry ->
+                val eventId = backStackEntry.arguments?.getLong("eventId") ?: return@composable
                 EventDetailsScreen(
-                    eventId = eventId.toLong(),
+                    eventId = eventId,
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToMap = { lat, lon ->
                         navController.navigate("navigation_map/$lat/$lon")
@@ -144,9 +165,5 @@ fun NavGraph(
 private fun NavHostController.navigateToEventDetails(eventId: Long) {
     navigate("event_details/$eventId") {
         launchSingleTop = true
-        popUpTo("event_details/{eventId}") {
-            inclusive = true
-            saveState = false
-        }
     }
 }

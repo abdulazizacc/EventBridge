@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.eventbridge.domain.entity.Event
 import com.uni.eventbridge.domain.model.SearchHistoryItem
 import com.uni.eventbridge.presentation.common.component.EventCard
+import com.uni.eventbridge.presentation.common.component.EventCardShimmer
 import com.uni.eventbridge.presentation.common.component.theme.Primary
 import eventbridge.composeapp.generated.resources.Res
 import eventbridge.composeapp.generated.resources.ic_close
@@ -341,11 +341,15 @@ private fun SearchResultsSection(
     Box(modifier = Modifier.fillMaxSize()) {
         when {
             isLoading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Primary,
-                    strokeWidth = 2.dp
-                )
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                ) {
+                    items(5) {
+                        EventCardShimmer()
+                    }
+                }
             }
 
             isEmpty -> {

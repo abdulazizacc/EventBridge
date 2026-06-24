@@ -68,9 +68,9 @@ fun ReviewStep(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             StepProgressHeader(
-                stepLabel = "STEP 3 OF 3",
+                stepLabel = "STEP ${uiState.currentStepIndex + 1} OF ${uiState.totalSteps}",
                 stepSublabel = "Final Review",
-                progressFraction = 1f,
+                progressFraction = uiState.progressFraction,
             )
 
             if (validationError != null) {
@@ -133,7 +133,7 @@ fun ReviewStep(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "STEP 3 OF 3: FINAL REVIEW",
+                text = "STEP ${uiState.currentStepIndex + 1} OF ${uiState.totalSteps}: FINAL REVIEW",
                 fontSize = 11.sp,
                 color = Color(0xFFAAAAAA),
                 modifier = Modifier.align(Alignment.CenterHorizontally),

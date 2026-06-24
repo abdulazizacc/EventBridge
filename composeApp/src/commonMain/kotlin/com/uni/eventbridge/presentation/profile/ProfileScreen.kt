@@ -39,6 +39,7 @@ import com.uni.eventbridge.presentation.common.component.theme.Primary
 import com.uni.eventbridge.presentation.common.component.theme.Secondary
 import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.common.component.topBar.DefaultTopBar
+import com.uni.eventbridge.presentation.profile.component.ProfileShimmer
 import com.uni.eventbridge.presentation.profile.component.SignOutDialog
 import com.uni.eventbridge.presentation.profile.component.TermOfService
 import eventbridge.composeapp.generated.resources.Res
@@ -89,6 +90,7 @@ private fun ProfileContent(
 ) {
     EventBridgeScaffold(
         isLoading = uiState.isLoading,
+        loadingContent = { ProfileShimmer() },
         topBar = {
             DefaultTopBar(
                 title = "Profile",

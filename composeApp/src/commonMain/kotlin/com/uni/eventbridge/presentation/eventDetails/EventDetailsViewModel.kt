@@ -42,18 +42,13 @@ class EventDetailsViewModel(
         )
     }
     fun onJoinEventClick() {
-        val state = currentState
-        if (state.isFull) {
-            sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Sorry, this event is full"))
-            return
-        }
         tryToExecute(
             callee = { eventRepository.joinEvent(eventId) },
-            onStart = { updateState { it.copy(isLoading = true) } },
+            onStart = { updateState { it.copy(isJoining = true) } },
             onSuccess = {
                 updateState {
                     it.copy(
-                        isLoading = false,
+                        isJoining = false,
                         isRegistered = true,
                         remainingSeats = it.remainingSeats?.minus(1),
                     )
@@ -61,10 +56,8 @@ class EventDetailsViewModel(
                 sendEffect(EventDetailsUIEffect.ShowJoinSuccessSnakeBar)
             },
             onError = {
-                updateState { it.copy(isLoading = false) }
-                if (state.remainingSeats != null && state.remainingSeats <= 0) {
-                    sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Sorry, this event is full"))
-                }
+                updateState { it.copy(isJoining = false) }
+                sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to join event. Please try again."))
             }
         )
     }
@@ -72,11 +65,11 @@ class EventDetailsViewModel(
     fun onLeaveEventClick() {
         tryToExecute(
             callee = { eventRepository.leaveEvent(eventId) },
-            onStart = { updateState { it.copy(isLoading = true) } },
+            onStart = { updateState { it.copy(isLeaving = true) } },
             onSuccess = {
                 updateState {
                     it.copy(
-                        isLoading = false,
+                        isLeaving = false,
                         isRegistered = false,
                         remainingSeats = it.remainingSeats?.plus(1),
                     )
@@ -84,7 +77,7 @@ class EventDetailsViewModel(
                 sendEffect(EventDetailsUIEffect.ShowLeaveSuccessSnackBar)
             },
             onError = {
-                updateState { it.copy(isLoading = false) }
+                updateState { it.copy(isLeaving = false) }
                 sendEffect(EventDetailsUIEffect.ShowErrorSnackBar("Failed to leave event. Please try again."))
             }
         )
