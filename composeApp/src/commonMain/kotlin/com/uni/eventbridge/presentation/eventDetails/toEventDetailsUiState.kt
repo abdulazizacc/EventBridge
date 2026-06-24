@@ -5,21 +5,20 @@ import com.uni.eventbridge.domain.entity.Event
 
 fun Event.toUiState() = EventDetailsUiState(
     id = id,
-    title = name,
-    description = description,
     heroImageUrl = bannerUrl,
-    venueName = location,
+    category = category.toUiState(),
+    title = name,
+    organizer = organizer,
     date = date,
     startTime = startTime,
     endTime = endTime,
+    venueName = location,
     venueDetail = venueDetail,
-    category = category.toUiState(),
+    description = description,
     maxAttendees = maxAttendees,
     remainingSeats = remainingSeats,
     pinLatitude = latitude,
     pinLongitude = longitude,
-    organizer = organizer,
-    isFull = remainingSeats != null && remainingSeats <= 0,
     )
 
 fun Category.toUiState() = EventDetailsUiState.CategoryUiState(
