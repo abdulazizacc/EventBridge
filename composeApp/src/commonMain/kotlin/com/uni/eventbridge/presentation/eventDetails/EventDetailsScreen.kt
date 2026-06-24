@@ -27,6 +27,7 @@ import com.uni.eventbridge.presentation.common.component.theme.White
 import com.uni.eventbridge.presentation.eventDetails.component.AboutSection
 import com.uni.eventbridge.presentation.eventDetails.component.AttendanceDialog
 import com.uni.eventbridge.presentation.eventDetails.component.AttendeesRow
+import com.uni.eventbridge.presentation.eventDetails.component.EventDetailsShimmer
 import com.uni.eventbridge.presentation.eventDetails.component.EventHeader
 import com.uni.eventbridge.presentation.eventDetails.component.EventInfoRows
 import com.uni.eventbridge.presentation.eventDetails.component.HeroSection
@@ -97,10 +98,10 @@ fun EventDetailsContent(
         }
         EventBridgeScaffold(
             isLoading = uiState.isLoading,
+            loadingContent = { EventDetailsShimmer() },
             bottomBar = {
                 JoinBottomBar(
                     isJoined = uiState.isRegistered,
-                    isFull = uiState.isFull,
                     onJoinClick = onJoinClick,
                     onLeaveClick = onLeaveClick,
                 )
